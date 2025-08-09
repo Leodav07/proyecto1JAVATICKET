@@ -70,10 +70,16 @@ public class GestionUsuariosPantalla extends JFrame {
 
     editarUsuarioButton.setBounds(centerX, startY + (btnHeight + spacing), btnWidth, btnHeight);
     editarUsuarioButton.setFont(new Font("Verdana", Font.BOLD, 14));
-
+    editarUsuarioButton.addActionListener(e->{
+       new EditarUsuariosPantalla().setVisible(true);
+       this.dispose();
+    });
     eliminarUsuarioButton.setBounds(centerX, startY + 2 * (btnHeight + spacing), btnWidth, btnHeight);
     eliminarUsuarioButton.setFont(new Font("Verdana", Font.BOLD, 14));
-
+    eliminarUsuarioButton.addActionListener(e->{
+       new BorrarUsuariosPantalla().setVisible(true);
+       this.dispose();
+    });
     regresarButton.setBounds(centerX, startY + 3 * (btnHeight + spacing), btnWidth, btnHeight);
     regresarButton.setFont(new Font("Verdana", Font.BOLD, 14));
 

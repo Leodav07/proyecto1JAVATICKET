@@ -6,6 +6,10 @@ package login;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import login.Admin;
+import login.Contenido;
+import login.Limitado;
+import login.Usuario;
 import pantallas.AgregarUsuariosPantalla;
 
 /**
@@ -36,7 +40,7 @@ public class Gestion {
         try {
             if (buscarUsuarios(usuario, 0) == null) {
                 if (verificarContraseña(password)) {
-                    
+
                     switch (rol.toUpperCase()) {
                         case "ADMINISTRADOR":
                             usuarios.add(new Admin(nombreCompleto, usuario, password, edad));
@@ -58,8 +62,8 @@ public class Gestion {
                             return "Error en tipo de usuario.";
                     }
                 } else {
-                   JOptionPane.showMessageDialog(agregar, mensajeDeContraseña(password), "ADVERTENCIA" , JOptionPane.WARNING_MESSAGE);
-    
+                    JOptionPane.showMessageDialog(agregar, mensajeDeContraseña(password), "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+
                 }
             } else {
 
@@ -71,6 +75,66 @@ public class Gestion {
         }
         return null;
     }
+
+ public String editarUsuario(String usuario, String password, String rol, String nombreCompleto, int edad) {
+    try {
+        Usuario user = buscarUsuarios(usuario, 0); 
+        if (user == null) {
+            return "Usuario no encontrado.";
+        }
+        
+        // Verificar si hay algún cambio realmente
+        if (user.getUsuario().equals(usuario) && user.getNombreCompleto().equals(nombreCompleto)
+                && user.getPass().equals(password) && user.getTipoRol().equals(rol) && user.getEdad() == edad) {
+            return "Para editar un usuario debes realizar al menos un cambio.";
+        } else {
+            ArrayList<Integer> eventosPrevios = user.getEventos();
+
+            Usuario nuevoUsuario;
+
+            switch (rol) {
+                case "ADMINISTRADOR":
+                    nuevoUsuario = new Admin(nombreCompleto, usuario, password, edad);
+                    break;
+                case "CONTENIDO":
+                    nuevoUsuario = new Contenido(nombreCompleto, usuario, password, edad);
+                    break;
+                case "LIMITADO":
+                    nuevoUsuario = new Limitado(nombreCompleto, usuario, password, edad);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Rol desconocido");
+            }
+
+            if (!"LIMITADO".equals(nuevoUsuario.getTipoRol())) {
+                nuevoUsuario.setEventos(eventosPrevios);
+            }
+
+            int i = encontrarIndice(usuario);
+            usuarios.set(i, nuevoUsuario);
+
+            return "Usuario editado correctamente.";
+        }
+
+    } catch (Exception e) {
+        System.out.println("ERROR: " + e.getMessage());
+        return "ERROR: " + e.getMessage();
+    }
+}
+ 
+   private int encontrarIndice(String usuario){
+       int i = -1;
+            for (int index = 0; index < usuarios.size(); index++) {
+                if (usuarios.get(index).getUsuario().equals(usuario)) {
+                    i = index;
+                    return i;
+                }
+            }
+            if (i == -1) {
+                return i;
+            }
+       return i;
+   }
 
     public Usuario buscarUsuarios(String usuario, int x) { //Función recursiva #1
         if (x >= usuarios.size()) {
@@ -87,6 +151,16 @@ public class Gestion {
     public boolean verificarContraseña(String password) {
         return password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+]).{8,}$");
 
+    }
+    
+    public String borrarUsuario(String usuario){
+        try{
+        int i = encontrarIndice(usuario);
+        usuarios.remove(i);
+        return "Usuario eliminado con éxito.";
+        }catch (Exception e){
+        return "Ocurrio un error." + e.getMessage();
+        }
     }
 
     public String mensajeDeContraseña(String password) {
@@ -106,25 +180,25 @@ public class Gestion {
 
     public boolean loginCuenta(String usuario, String password) {
         Usuario user = buscarUsuarios(usuario, 0);
-        try{
-        if (user != null) {
-            if (user.getUsuario().equals(usuario) && user.getPass().equals(password)) {
-                if (user.getTipoRol().equals("ADMIN")) {
-                    usuarioActual = user;
-                    return true;
-                } else if (user.getTipoRol().equals("CONTENIDO")) {
-                    usuarioActual = user;
-                    return true;
-                } else if (user.getTipoRol().equals("LIMITADO")) {
-                    usuarioActual = user;
-                    return true;
-                } else {
-                    return false;
-                }
+        try {
+            if (user != null) {
+                if (user.getUsuario().equals(usuario) && user.getPass().equals(password)) {
+                    if (user.getTipoRol().equals("ADMIN")) {
+                        usuarioActual = user;
+                        return true;
+                    } else if (user.getTipoRol().equals("CONTENIDO")) {
+                        usuarioActual = user;
+                        return true;
+                    } else if (user.getTipoRol().equals("LIMITADO")) {
+                        usuarioActual = user;
+                        return true;
+                    } else {
+                        return false;
+                    }
 
+                }
             }
-        }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return false;

@@ -38,6 +38,33 @@ public abstract class Usuario {
         return password;
     }
          
+    public int getEdad(){
+        return edad;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+    
+   public ArrayList<Integer> getEventos() {
+        return eventosIds;
+    }
+   
+   public void setEventos(ArrayList<Integer> eventos) {
+        eventosIds = eventos;
+    }
     public void agregarEventos(int id){
         eventosIds.add(id);
     }
