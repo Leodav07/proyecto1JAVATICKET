@@ -37,7 +37,7 @@ public class LoginVentana extends JFrame {
         JTextField tusuario = new JTextField();
         JPasswordField tpassword = new JPasswordField();
         JButton iniciarButton = new JButton("ENTRAR");
-        JButton salirButton = new JButton("SALIR");
+        JButton salirButton = new JButton("SALI");
        
 
 
