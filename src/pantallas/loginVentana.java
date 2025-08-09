@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -76,11 +77,17 @@ public class loginVentana extends JFrame {
         iniciarButton.setForeground(Color.BLACK);
 
         iniciarButton.addActionListener(e -> {
+            try{
             String password = new String(tpassword.getPassword());
             if (gestion.loginCuenta(tusuario.getText(), password)) {
+                new pantallaPrincipal().setVisible(true);
                 System.out.println("Bienvenido: " + gestion.buscarUsuarios(tusuario.getText(), 0).getNombreCompleto());
             }else{
-                System.out.println("Usuario o contraseña incorrecta.");
+                JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrecta.", "ERROR DE INICIO", JOptionPane.ERROR_MESSAGE);
+            }
+            }
+            catch(Exception errorInicio){
+                JOptionPane.showMessageDialog(this, errorInicio.getMessage());
             }
         });
 

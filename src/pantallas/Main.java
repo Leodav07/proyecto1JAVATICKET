@@ -9,8 +9,10 @@ package pantallas;
  * @author hnleo
  */
 public class Main {
+
     public static void main(String[] args) {
-        new loginVentana().setVisible(true);
+        // new loginVentana().setVisible(true);
+        new pantallaPrincipal().setVisible(true);
     }
-    
+
 }
