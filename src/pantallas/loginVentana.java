@@ -21,11 +21,11 @@ import login.Gestion;
  *
  * @author hnleo
  */
-public class loginVentana extends JFrame {
+public class LoginVentana extends JFrame {
        private Gestion gestion;
   
-        public loginVentana(){
-         gestion = Gestion.getInstancia();
+        public LoginVentana(){
+        gestion = Gestion.getInstancia();
         cargarComponentes();
         }
         
@@ -80,8 +80,9 @@ public class loginVentana extends JFrame {
             try{
             String password = new String(tpassword.getPassword());
             if (gestion.loginCuenta(tusuario.getText(), password)) {
-                new pantallaPrincipal().setVisible(true);
+                new PantallaPrincipal().setVisible(true);
                 System.out.println("Bienvenido: " + gestion.buscarUsuarios(tusuario.getText(), 0).getNombreCompleto());
+                this.dispose();
             }else{
                 JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrecta.", "ERROR DE INICIO", JOptionPane.ERROR_MESSAGE);
             }

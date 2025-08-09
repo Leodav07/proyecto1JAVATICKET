@@ -8,10 +8,6 @@ package pantallas;
  *
  * @author hnleo
  */
-public class Main {
-
-    public static void main(String[] args) {
-        new LoginVentana().setVisible(true);
-    }
-
+public class GestionUsuariosPantalla {
+    
 }

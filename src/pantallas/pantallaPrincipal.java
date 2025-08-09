@@ -15,11 +15,11 @@ import login.Gestion;
  *
  * @author hnleo
  */
-public class pantallaPrincipal extends JFrame {
+public class PantallaPrincipal extends JFrame {
 
     private Gestion gestion;
 
-    public pantallaPrincipal() {
+    public PantallaPrincipal() {
         
         verificarUser();
         gestion = Gestion.getInstancia();
@@ -37,7 +37,7 @@ public class pantallaPrincipal extends JFrame {
 
         this.setSize(800, 600);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         this.setLayout(null);
         this.setLocationRelativeTo(null);
@@ -95,7 +95,7 @@ public class pantallaPrincipal extends JFrame {
 
         this.setSize(800, 600);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         this.setLayout(null);
         this.setLocationRelativeTo(null);
@@ -147,7 +147,7 @@ public class pantallaPrincipal extends JFrame {
 
         this.setSize(800, 600);
         this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         this.setLayout(null);
         this.setLocationRelativeTo(null);
@@ -191,10 +191,13 @@ public class pantallaPrincipal extends JFrame {
         try {
             if (gestion.usuarioActual.getTipoRol().equals("ADMIN")) {
                 pantallaAdmin();
+                System.out.println("USER ACTUAL:"+gestion.usuarioActual.getUsuario()+" ADMIN");
             } else if (gestion.usuarioActual.getTipoRol().equals("CONTENIDO")) {
                 pantallaContenido();
-            } else if (gestion.usuarioActual.getTipoRol().equals("LIMITADo")) {
+                System.out.println("USER ACTUAL: "+gestion.usuarioActual.getUsuario()+" CONTENIDO");
+            } else if (gestion.usuarioActual.getTipoRol().equals("LIMITADO")) {
                 pantallaLimitada();
+                System.out.println("USER ACTUAL:"+gestion.usuarioActual.getUsuario()+" LIMITADO");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -205,7 +208,8 @@ public class pantallaPrincipal extends JFrame {
           try{
            if(gestion.usuarioActual!=null){
           gestion.usuarioActual = null;
-          new loginVentana().setVisible(true);
+          new LoginVentana().setVisible(true);
+          this.dispose();
            }
             } 
             catch(Exception i){
