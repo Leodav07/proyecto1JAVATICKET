@@ -6,9 +6,13 @@ package pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -19,104 +23,176 @@ import login.Gestion;
  * @author hnleo
  */
 public class AgregarUsuariosPantalla extends JFrame {
+
     private Gestion gestion;
-    
-    public AgregarUsuariosPantalla(){
+    private boolean pasar;
+
+    public AgregarUsuariosPantalla() {
         gestion = Gestion.getInstancia();
         pantalla();
     }
-    
-   private void pantalla() {
-    JPanel panelPrincipal = new JPanel();
-    JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-    JLabel labelSubtitulo = new JLabel("Administración de Usuarios.", SwingConstants.CENTER);
 
-    JLabel labelNombre = new JLabel("Nombre Completo:");
-    JLabel labelUsuario = new JLabel("Usuario:");
-    JLabel labelContraseña = new JLabel("Contraseña:");
-    JLabel labelEdad = new JLabel("Edad:");
+    private void pantalla() {
+        JPanel panelPrincipal = new JPanel();
+        JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
+        JLabel labelSubtitulo = new JLabel("Administración de Usuarios.", SwingConstants.CENTER);
 
-    JTextField textNombre = new JTextField();
-    JTextField usuarioText = new JTextField();
-    JTextField contrasennaText = new JTextField();
-    JTextField edadText = new JTextField();
+        JLabel labelTipoUsuario = new JLabel("Tipo de Usuario:");
+        JComboBox<String> comboTipoUsuario = new JComboBox<>(new String[]{"ADMINISTRADOR", "CONTENIDO", "LIMITADO"});
 
-    JButton crearUsuarioButton = new JButton("Crear");
-    JButton cancelarUsuarioButton = new JButton("Cancelar");
-    JButton regresarButton = new JButton("Regresar");
+        JLabel labelNombre = new JLabel("Nombre Completo:");
+        JLabel labelUsuario = new JLabel("Usuario:");
+        JLabel labelContraseña = new JLabel("Contraseña:");
+        JLabel labelEdad = new JLabel("Edad:");
 
-  
-    this.setSize(500, 500);
-    this.setVisible(true);
-    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    this.setLayout(null);
-    this.setLocationRelativeTo(null);
-    this.setTitle("JAVA EVENTS");
+        JTextField textNombre = new JTextField();
+        JTextField usuarioText = new JTextField();
+        JTextField contrasennaText = new JTextField();
+        JTextField edadText = new JTextField();
 
-    
-    panelPrincipal.setBounds(0, 0, 500, 500);
-    panelPrincipal.setBackground(Color.WHITE);
-    panelPrincipal.setLayout(null);
+        JButton crearUsuarioButton = new JButton("Crear");
+        JButton cancelarUsuarioButton = new JButton("Cancelar");
+        JButton regresarButton = new JButton("Regresar");
 
-    
-    labelTitulo.setBounds(0, 20, 500, 40);
-    labelTitulo.setFont(new Font("Verdana", Font.BOLD, 24));
-    labelTitulo.setForeground(Color.BLACK);
+        this.setSize(500, 500);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setLayout(null);
+        this.setLocationRelativeTo(null);
+        this.setTitle("JAVA EVENTS");
 
-    labelSubtitulo.setBounds(0, 60, 500, 20);
-    labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 14));
-    labelSubtitulo.setForeground(Color.BLACK);
+        panelPrincipal.setBounds(0, 0, 500, 500);
+        panelPrincipal.setBackground(Color.WHITE);
+        panelPrincipal.setLayout(null);
 
-  
-    int labelWidth = 150;
-    int labelHeight = 25;
-    int fieldWidth = 200;
-    int fieldHeight = 25;
-    int startXLabel = 50;
-    int startXField = 200;
-    int startY = 100;
-    int spacingY = 40;
+        labelTitulo.setBounds(0, 20, 500, 40);
+        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 24));
+        labelTitulo.setForeground(Color.BLACK);
 
-    labelNombre.setBounds(startXLabel, startY, labelWidth, labelHeight);
-    textNombre.setBounds(startXField, startY, fieldWidth, fieldHeight);
+        labelSubtitulo.setBounds(0, 60, 500, 20);
+        labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 14));
+        labelSubtitulo.setForeground(Color.BLACK);
 
-    labelUsuario.setBounds(startXLabel, startY + spacingY, labelWidth, labelHeight);
-    usuarioText.setBounds(startXField, startY + spacingY, fieldWidth, fieldHeight);
+        int labelWidth = 150;
+        int labelHeight = 25;
+        int fieldWidth = 200;
+        int fieldHeight = 25;
+        int startXLabel = 50;
+        int startXField = 200;
+        int startY = 100;
+        int spacingY = 40;
 
-    labelContraseña.setBounds(startXLabel, startY + spacingY * 2, labelWidth, labelHeight);
-    contrasennaText.setBounds(startXField, startY + spacingY * 2, fieldWidth, fieldHeight);
+        labelTipoUsuario.setBounds(startXLabel, startY, labelWidth, labelHeight);
+        comboTipoUsuario.setBounds(startXField, startY, fieldWidth, fieldHeight);
 
-    labelEdad.setBounds(startXLabel, startY + spacingY * 3, labelWidth, labelHeight);
-    edadText.setBounds(startXField, startY + spacingY * 3, fieldWidth, fieldHeight);
+        labelNombre.setBounds(startXLabel, startY + spacingY, labelWidth, labelHeight);
+        textNombre.setBounds(startXField, startY + spacingY, fieldWidth, fieldHeight);
 
-    int btnWidth = 120;
-    int btnHeight = 30;
-    int centerX = (500 - btnWidth) / 2;
-    int btnStartY = startY + spacingY * 5;
+        labelUsuario.setBounds(startXLabel, startY + spacingY * 2, labelWidth, labelHeight);
+        usuarioText.setBounds(startXField, startY + spacingY * 2, fieldWidth, fieldHeight);
 
-    crearUsuarioButton.setBounds(centerX, btnStartY, btnWidth, btnHeight);
-    cancelarUsuarioButton.setBounds(centerX, btnStartY + (btnHeight + 10), btnWidth, btnHeight);
-    regresarButton.setBounds(centerX, btnStartY + 2 * (btnHeight + 10), btnWidth, btnHeight);
+        labelContraseña.setBounds(startXLabel, startY + spacingY * 3, labelWidth, labelHeight);
+        contrasennaText.setBounds(startXField, startY + spacingY * 3, fieldWidth, fieldHeight);
 
-    regresarButton.addActionListener(e -> {
-        new GestionUsuariosPantalla().setVisible(true);
-        this.dispose();
-    });
+        labelEdad.setBounds(startXLabel, startY + spacingY * 4, labelWidth, labelHeight);
+        edadText.setBounds(startXField, startY + spacingY * 4, fieldWidth, fieldHeight);
 
-   
-    this.add(panelPrincipal);
-    panelPrincipal.add(labelTitulo);
-    panelPrincipal.add(labelSubtitulo);
-    panelPrincipal.add(labelNombre);
-    panelPrincipal.add(textNombre);
-    panelPrincipal.add(labelUsuario);
-    panelPrincipal.add(usuarioText);
-    panelPrincipal.add(labelContraseña);
-    panelPrincipal.add(contrasennaText);
-    panelPrincipal.add(labelEdad);
-    panelPrincipal.add(edadText);
-    panelPrincipal.add(crearUsuarioButton);
-    panelPrincipal.add(cancelarUsuarioButton);
-    panelPrincipal.add(regresarButton);
+        int btnWidth = 120;
+        int btnHeight = 30;
+        int btnStartY = startY + spacingY * 6;
+
+        crearUsuarioButton.setBounds(startXLabel, btnStartY, btnWidth, btnHeight);
+        cancelarUsuarioButton.setBounds(startXField, btnStartY, btnWidth, btnHeight);
+        regresarButton.setBounds((500 - btnWidth) / 2, btnStartY + (btnHeight + 10), btnWidth, btnHeight);
+
+        //Verificar si el usuario existe o no
+        try {
+            usuarioText.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (gestion.buscarUsuarios(usuarioText.getText(), 0) != null || usuarioText.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(AgregarUsuariosPantalla.this, "Usuario ya existe o campo vacio.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        crearUsuarioButton.setEnabled(false);
+                        usuarioText.setText("");
+                        usuarioText.requestFocus();
+                        pasar = false;
+                    } else {
+                        pasar = true;
+                        crearUsuarioButton.setEnabled(true);
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(AgregarUsuariosPantalla.this, "Ocurrio un error." + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+
+        //Verificar que la contraseña cumpla con los requerimientos mínimos de seguridad
+        try {
+            contrasennaText.addFocusListener(new FocusAdapter() {
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (pasar) {
+                        if (!gestion.verificarContraseña(contrasennaText.getText())) {
+                            JOptionPane.showMessageDialog(
+                                    AgregarUsuariosPantalla.this,
+                                    gestion.mensajeDeContraseña(contrasennaText.getText()),
+                                    "ADVERTENCIA",
+                                    JOptionPane.WARNING_MESSAGE
+                            );
+                            crearUsuarioButton.setEnabled(false);
+                            contrasennaText.requestFocus();
+                        } else {
+                            crearUsuarioButton.setEnabled(true);
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(AgregarUsuariosPantalla.this, "Ocurrio un error." + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+
+        }
+        
+        crearUsuarioButton.addActionListener(e->{
+            int edad = Integer.parseInt(edadText.getText());
+           JOptionPane.showMessageDialog(this, gestion.agregarUsuarios(usuarioText.getText(), contrasennaText.getText(), comboTipoUsuario.getSelectedItem().toString(), textNombre.getText(), edad), "AVISO", JOptionPane.INFORMATION_MESSAGE);
+           textNombre.setText("");
+           usuarioText.setText("");
+           contrasennaText.setText("");
+           edadText.setText("");
+           
+        });
+        
+        cancelarUsuarioButton.addActionListener(e->{
+           textNombre.setText("");
+           usuarioText.setText("");
+           contrasennaText.setText("");
+           edadText.setText("");
+        });
+
+        regresarButton.addActionListener(e -> {
+            new GestionUsuariosPantalla().setVisible(true);
+            this.dispose();
+        });
+
+        this.add(panelPrincipal);
+        panelPrincipal.add(labelTitulo);
+        panelPrincipal.add(labelSubtitulo);
+        panelPrincipal.add(labelTipoUsuario);
+        panelPrincipal.add(comboTipoUsuario);
+        panelPrincipal.add(labelNombre);
+        panelPrincipal.add(textNombre);
+        panelPrincipal.add(labelUsuario);
+        panelPrincipal.add(usuarioText);
+        panelPrincipal.add(labelContraseña);
+        panelPrincipal.add(contrasennaText);
+        panelPrincipal.add(labelEdad);
+        panelPrincipal.add(edadText);
+        panelPrincipal.add(crearUsuarioButton);
+        panelPrincipal.add(cancelarUsuarioButton);
+        panelPrincipal.add(regresarButton);
+        
     }
+    
+    
 }

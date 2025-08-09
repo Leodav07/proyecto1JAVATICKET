@@ -5,6 +5,8 @@
 package login;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import pantallas.AgregarUsuariosPantalla;
 
 /**
  *
@@ -15,6 +17,7 @@ public class Gestion {
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     public static Usuario usuarioActual;
     private static Gestion instancia;
+    private AgregarUsuariosPantalla agregar;
 
     public Gestion() {
         usuarios.add(new Admin("ADMIN", "admin", "supersecreto", 30));
@@ -33,28 +36,30 @@ public class Gestion {
         try {
             if (buscarUsuarios(usuario, 0) == null) {
                 if (verificarContraseña(password)) {
+                    
                     switch (rol.toUpperCase()) {
-                        case "ADMIN":
+                        case "ADMINISTRADOR":
                             usuarios.add(new Admin(nombreCompleto, usuario, password, edad));
                             System.out.println("Usuario admin creado exitosamente.");
-                            return "Usuario ADMINISTRADOR creado exitosamente.";
+                            return "Usuario creado exitosamente";
 
                         case "CONTENIDO":
                             usuarios.add(new Contenido(nombreCompleto, usuario, password, edad));
                             System.out.println("Usuario contenido creado exitosamente.");
-                            return "Usuario CONTENIDO creado exitosamente.";
+                            return "Usuario creado exitosamente";
 
                         case "LIMITADO":
                             usuarios.add(new Limitado(nombreCompleto, usuario, password, edad));
                             System.out.println("Usuario limitado creado exitosamente.");
-                            return "Usuario LIMITADO creado exitosamente.";
+                            return "Usuario creado exitosamente";
 
                         default:
                             System.out.println("Tipo de rol no admitido, intentelo de nuevo.");
-                            return "Tipo de ROL no ADMITIDO, intentar de nuevo.";
+                            return "Error en tipo de usuario.";
                     }
                 } else {
-                    return "Contraseña no válida.";
+                   JOptionPane.showMessageDialog(agregar, mensajeDeContraseña(password), "ADVERTENCIA" , JOptionPane.WARNING_MESSAGE);
+    
                 }
             } else {
 
@@ -67,8 +72,8 @@ public class Gestion {
         return null;
     }
 
-    public Usuario buscarUsuarios(String usuario, int x) {
-        if (x > usuarios.size()) {
+    public Usuario buscarUsuarios(String usuario, int x) { //Función recursiva #1
+        if (x >= usuarios.size()) {
             return null;
         }
         if (usuarios.get(x).getUsuario().equals(usuario)) {
@@ -77,20 +82,14 @@ public class Gestion {
 
         return buscarUsuarios(usuario, x + 1);
 
-//        for (Usuario u : usuarios) {
-//            if (u != null && u.getUsuario().equals(usuario)) {
-//                return u;
-//            }
-//        }
-//        return null;
     }
 
-    private boolean verificarContraseña(String password) {
+    public boolean verificarContraseña(String password) {
         return password.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*()_+]).{8,}$");
 
     }
 
-    private String mensajeDeContraseña(String password) {
+    public String mensajeDeContraseña(String password) {
         if (password.length() < 8) {
             return "La contraseña debe tener al menos 8 carácteres.";
         } else if (!password.matches(".*[A-Za-z].")) {
