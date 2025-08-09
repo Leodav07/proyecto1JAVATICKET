@@ -11,7 +11,7 @@ package pantallas;
 public class Main {
 
     public static void main(String[] args) {
-        new LoginVentana().setVisible(true);
+        new loginVentana().setVisible(true);
     }
 
 }

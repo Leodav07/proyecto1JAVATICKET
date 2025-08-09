@@ -15,11 +15,11 @@ import login.Gestion;
  *
  * @author hnleo
  */
-public class PantallaPrincipal extends JFrame {
+public class pantallaPrincipal extends JFrame {
 
     private Gestion gestion;
 
-    public PantallaPrincipal() {
+    public pantallaPrincipal() {
         
         verificarUser();
         gestion = Gestion.getInstancia();
@@ -208,7 +208,7 @@ public class PantallaPrincipal extends JFrame {
           try{
            if(gestion.usuarioActual!=null){
           gestion.usuarioActual = null;
-          new LoginVentana().setVisible(true);
+          new loginVentana().setVisible(true);
           this.dispose();
            }
             } 

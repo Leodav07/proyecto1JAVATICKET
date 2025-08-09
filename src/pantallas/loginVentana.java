@@ -21,10 +21,10 @@ import login.Gestion;
  *
  * @author hnleo
  */
-public class LoginVentana extends JFrame {
+public class loginVentana extends JFrame {
        private Gestion gestion;
   
-        public LoginVentana(){
+        public loginVentana(){
         gestion = Gestion.getInstancia();
         cargarComponentes();
         }
@@ -80,7 +80,7 @@ public class LoginVentana extends JFrame {
             try{
             String password = new String(tpassword.getPassword());
             if (gestion.loginCuenta(tusuario.getText(), password)) {
-                new PantallaPrincipal().setVisible(true);
+                new pantallaPrincipal().setVisible(true);
                 System.out.println("Bienvenido: " + gestion.buscarUsuarios(tusuario.getText(), 0).getNombreCompleto());
                 this.dispose();
             }else{
