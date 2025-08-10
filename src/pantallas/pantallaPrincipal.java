@@ -57,6 +57,10 @@ public class pantallaPrincipal extends JFrame {
         adminEventButton.setBounds(300, 160, 200, 35);
         adminEventButton.setFont(new Font("Verdana", Font.BOLD, 14));
         adminEventButton.setForeground(Color.BLACK);
+        adminEventButton.addActionListener(e->{
+           new GestionEventosPantalla().setVisible(true);
+           this.dispose();
+        });
 
         adminUserButton.setBounds(290, 210, 220, 35);
         adminUserButton.setFont(new Font("Verdana", Font.BOLD, 14));

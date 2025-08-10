@@ -26,7 +26,7 @@ public class EventoMusical extends Eventos {
         return 0;
     }
     
-    enum TipoMusica{
+    public enum TipoMusica{
         POP, ROCK, RAP, CLASICA, REGGEATON, OTRO
     }
 

@@ -3,13 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/pantallas/pantallaPrincipal.java</file>
-            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/pantallas/Main.java</file>
             <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/login/Gestion.java</file>
-            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/pantallas/GestionUsuariosPantalla.java</file>
-            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/pantallas/loginVentana.java</file>
-            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/pantallas/AgregarUsuariosPantalla.java</file>
-            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/login/Usuario.java</file>
+            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/events/Eventos.java</file>
+            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/events/EventoDeportivo.java</file>
+            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/events/EventoMusical.java</file>
+            <file>file:/C:/Users/hnleo/Desktop/gitRepost/LeonardoLopezJAVATICKET_programacion2/src/events/EventoReligioso.java</file>
         </group>
     </open-files>
 </project-private>
