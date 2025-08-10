@@ -1,0 +1,81 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package events;
+import java.util.Calendar;
+/**
+ *
+ * @author hnleo
+ */
+abstract class Eventos {
+    protected int codigoEvento;
+    protected String tituloEvento;
+    protected String descripcionEvento;
+    protected Calendar fechaARealizar;
+    protected double montoRenta;
+    protected boolean cancelado;
+    
+    public Eventos (int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta){
+        this.codigoEvento = codigoEvento;
+        this.tituloEvento = tituloEvento;
+        this.descripcionEvento = descripcionEvento;
+        this.fechaARealizar = fechaARealizar;
+        this.montoRenta = montoRenta;
+        cancelado = false;
+       
+    }
+
+    public int getCodigoEvento() {
+        return codigoEvento;
+    }
+
+    public void setCodigoEvento(int codigoEvento) {
+        this.codigoEvento = codigoEvento;
+    }
+
+    public String getTituloEvento() {
+        return tituloEvento;
+    }
+
+    public void setTituloEvento(String tituloEvento) {
+        this.tituloEvento = tituloEvento;
+    }
+
+    public String getDescripcionEvento() {
+        return descripcionEvento;
+    }
+
+    public void setDescripcionEvento(String descripcionEvento) {
+        this.descripcionEvento = descripcionEvento;
+    }
+
+    public Calendar getFechaARealizar() {
+        return fechaARealizar;
+    }
+
+    public void setFechaARealizar(Calendar fechaARealizar) {
+        this.fechaARealizar = fechaARealizar;
+    }
+
+    public double getMontoRenta() {
+        return montoRenta;
+    }
+
+    public void setMontoRenta(double montoRenta) {
+        this.montoRenta = montoRenta;
+    }
+
+    public boolean isCancelado() {
+        return cancelado;
+    }
+
+    public void setCancelado(boolean cancelado) {
+        this.cancelado = cancelado;
+    }
+    
+    
+    abstract String getTipoEvento();
+    abstract double calcularMonto();
+    
+}

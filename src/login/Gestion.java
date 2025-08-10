@@ -16,7 +16,7 @@ import pantallas.AgregarUsuariosPantalla;
  *
  * @author hnleo
  */
-public class Gestion {
+public final class Gestion { 
 
     private ArrayList<Usuario> usuarios = new ArrayList<>();
     public static Usuario usuarioActual;
@@ -36,7 +36,7 @@ public class Gestion {
 
     }
 
-    public String agregarUsuarios(String usuario, String password, String rol, String nombreCompleto, int edad) {
+    public final String agregarUsuarios(String usuario, String password, String rol, String nombreCompleto, int edad) {
         try {
             if (buscarUsuarios(usuario, 0) == null) {
                 if (verificarContraseña(password)) {
@@ -76,7 +76,7 @@ public class Gestion {
         return null;
     }
 
- public String editarUsuario(String usuario, String password, String rol, String nombreCompleto, int edad) {
+ public final String editarUsuario(String usuario, String password, String rol, String nombreCompleto, int edad) {
     try {
         Usuario user = buscarUsuarios(usuario, 0); 
         if (user == null) {
@@ -153,7 +153,7 @@ public class Gestion {
 
     }
     
-    public String borrarUsuario(String usuario){
+    public final String borrarUsuario(String usuario){
         try{
         int i = encontrarIndice(usuario);
         usuarios.remove(i);
@@ -178,7 +178,7 @@ public class Gestion {
         }
     }
 
-    public boolean loginCuenta(String usuario, String password) {
+    public final boolean loginCuenta(String usuario, String password) {
         Usuario user = buscarUsuarios(usuario, 0);
         try {
             if (user != null) {
