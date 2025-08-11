@@ -28,6 +28,7 @@ public final class Gestion {
     private static Gestion instancia;
     private AgregarUsuariosPantalla agregar;
     private ArrayList<Eventos> eventos = new ArrayList<>();
+  
 
     public Gestion() {
         usuarios.add(new Admin("ADMIN", "admin", "supersecreto", 30));
@@ -141,6 +142,20 @@ public final class Gestion {
             }
        return i;
    }
+   
+   private int encontrarIndiceEventos(int codigoEvento){
+       int i = -1;
+            for (int index = 0; index < eventos.size(); index++) {
+                if (eventos.get(index).getCodigoEvento() == codigoEvento) {
+                    i = index;
+                    return i;
+                }
+            }
+            if (i == -1) {
+                return i;
+            }
+       return i;
+   }
 
     public Usuario buscarUsuarios(String usuario, int x) { //Función recursiva #1
         if (x >= usuarios.size()) {
@@ -212,7 +227,7 @@ public final class Gestion {
     
     //GESTION DE EVENTOS
     
-    public String crearEvento(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String tipoEvento, String nombreEquipo1, String nombreEquipo2, String tipoDeporte, String tipoMusica){
+    public String crearEvento(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String tipoEvento, String nombreEquipo1, String nombreEquipo2, String tipoDeporte, String tipoMusica, int cantidadPersonas){
       
         try{
         if(buscarEventos(codigoEvento, 0) != null){
@@ -223,14 +238,14 @@ public final class Gestion {
         
         switch(tipoEvento){
             case ("DEPORTIVO"):
-                nuevoEvento = new EventoDeportivo(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, nombreEquipo1, nombreEquipo2, tipoDeporte);
+                nuevoEvento = new EventoDeportivo(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, nombreEquipo1, nombreEquipo2, tipoDeporte, cantidadPersonas);
                 break;
             case("MUSICAL"):
-                nuevoEvento = new EventoMusical(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, tipoMusica);
+                nuevoEvento = new EventoMusical(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, tipoMusica, cantidadPersonas);
                 break;
                 
             case("RELIGIOSO"):
-                nuevoEvento = new EventoReligioso(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta);
+                nuevoEvento = new EventoReligioso(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, cantidadPersonas);
                 break;
                 
             default:
@@ -263,5 +278,75 @@ public final class Gestion {
         return buscarEventos(codigoEvento, x + 1);
 
     }
+    
+    public final String editarEvento(
+        int codigoEvento,
+        String tituloEvento,
+        String descripcionEvento,
+        Calendar fechaARealizar,
+        double montoRenta,
+        String tipoEvento,
+        String nombreEquipo1,
+        String nombreEquipo2,
+        String tipoDeporte,
+        String tipoMusica,
+        int cantidadPersonas) {
 
+    try {
+        Eventos event = buscarEventos(codigoEvento, 0);
+
+        if (event == null) {
+            return "Evento no encontrado.";
+        }
+
+        boolean sinCambios = event.getTituloEvento().equals(tituloEvento)
+                && event.getDescripcionEvento().equals(descripcionEvento)
+                && event.getFechaARealizar().equals(fechaARealizar)
+                && event.getMontoRenta() == montoRenta
+                && event.getCantidadPersonas() == cantidadPersonas;
+
+        if (event instanceof EventoDeportivo) {
+            EventoDeportivo dep = (EventoDeportivo) event;
+            sinCambios = sinCambios
+                    && dep.getNombreEquipo1().equals(nombreEquipo1)
+                    && dep.getNombreEquipo2().equals(nombreEquipo2)
+                    && dep.getTipoDeporte().equals(tipoDeporte);
+        } else if (event instanceof EventoMusical) {
+            EventoMusical mus = (EventoMusical) event;
+            sinCambios = sinCambios && mus.getTipoMusica().equals(tipoMusica);
+        } else if (event instanceof EventoReligioso) {
+       
+        }
+
+        if (sinCambios) {
+            return "Para editar un evento debes realizar al menos un cambio.";
+        }
+
+        event.setTituloEvento(tituloEvento);
+        event.setDescripcionEvento(descripcionEvento);
+        event.setFechaARealizar(fechaARealizar);
+        event.setMontoRenta(montoRenta);
+        event.setCantidadPersonas(cantidadPersonas);
+
+        if (event instanceof EventoDeportivo) {
+            EventoDeportivo dep = (EventoDeportivo) event;
+            dep.setNombreEquipo1(nombreEquipo1);
+            dep.setNombreEquipo2(nombreEquipo2);
+            dep.setTipoDeporte(tipoDeporte);
+        } else if (event instanceof EventoMusical) {
+            EventoMusical mus = (EventoMusical) event;
+            mus.setTipoMusica(tipoMusica);
+        }
+      
+
+        return "Evento editado correctamente.";
+
+    } catch (Exception e) {
+        System.out.println("ERROR: " + e.getMessage());
+        return "ERROR: " + e.getMessage();
+    }
 }
+}
+ 
+
+

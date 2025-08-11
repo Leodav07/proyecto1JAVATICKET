@@ -12,13 +12,21 @@ import java.util.Calendar;
  */
 public class EventoMusical extends Eventos {
   private String tipoMusica;
-    public EventoMusical(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String tipoMusica) {
-        super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta);
+    public EventoMusical(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String tipoMusica, int cantidadPersonas) {
+        super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, cantidadPersonas);
     }
 
     @Override
     String getTipoEvento() {
         return "MUSICAL";
+    }
+
+    public String getTipoMusica() {
+        return tipoMusica;
+    }
+
+    public void setTipoMusica(String tipoMusica) {
+        this.tipoMusica = tipoMusica;
     }
 
     @Override
@@ -28,8 +36,5 @@ public class EventoMusical extends Eventos {
    }
     
     
-    public enum TipoMusica{
-        POP, ROCK, RAP, CLASICA, REGGEATON, OTRO
-    }
-
+  
 }

@@ -12,8 +12,8 @@ import java.util.Calendar;
  */
 public class EventoReligioso extends Eventos {
 
-    public EventoReligioso(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta) {
-        super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta);
+    public EventoReligioso(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, int cantidadPersonas) {
+        super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, cantidadPersonas);
     }
 
     @Override

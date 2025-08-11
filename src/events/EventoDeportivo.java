@@ -19,8 +19,8 @@ public class EventoDeportivo extends Eventos {
     private String nombreEquipo2;
     private String tipoDeporte;
 
-    public EventoDeportivo(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String nombreEquipo1, String nombreEquipo2, String tipoDeporte) {
-        super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta);
+    public EventoDeportivo(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String nombreEquipo1, String nombreEquipo2, String tipoDeporte, int cantidadPersonas) {
+        super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, cantidadPersonas);
         this.nombreEquipo1 = nombreEquipo1;
         this.nombreEquipo2 = nombreEquipo2;
        this.tipoDeporte = tipoDeporte;
@@ -29,6 +29,22 @@ public class EventoDeportivo extends Eventos {
     @Override
     String getTipoEvento() {
         return "DEPORTIVO";
+    }
+
+    public String getTipoDeporte() {
+        return tipoDeporte;
+    }
+
+    public void setNombreEquipo1(String nombreEquipo1) {
+        this.nombreEquipo1 = nombreEquipo1;
+    }
+
+    public void setNombreEquipo2(String nombreEquipo2) {
+        this.nombreEquipo2 = nombreEquipo2;
+    }
+
+    public void setTipoDeporte(String tipoDeporte) {
+        this.tipoDeporte = tipoDeporte;
     }
 
 
@@ -56,8 +72,6 @@ public class EventoDeportivo extends Eventos {
         this.equipo2 = equipo2;
     }
     
-   public enum TipoDeporte{
-        FUTBOL, TENIS, RUGBY, BASEBALL
-    }
+  
 
 }

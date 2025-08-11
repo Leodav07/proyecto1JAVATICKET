@@ -22,6 +22,8 @@ import javax.swing.SwingConstants;
 import login.Gestion;
 import java.util.Calendar;
 import com.toedter.calendar.JDateChooser;
+import events.TipoDeporte;
+import events.TipoMusica;
 import java.util.Date;
 
 /**
@@ -36,8 +38,8 @@ public class CrearEventosPantalla extends JFrame {
     private JDateChooser dateChooser = new JDateChooser();
     private JTextField textEquipo1, textEquipo2;
     private JComboBox<String> comboTipoEvento;
-    private JComboBox<EventoDeportivo.TipoDeporte> comboTipoDeporte;
-    private JComboBox<EventoMusical.TipoMusica> comboTipoMusica;
+    private JComboBox<TipoDeporte> comboTipoDeporte;
+    private JComboBox<TipoMusica> comboTipoMusica;
     private JButton crearEventoButton, cancelarButton, regresarButton;
 
     private final int labelWidth = 180;
@@ -53,7 +55,6 @@ public class CrearEventosPantalla extends JFrame {
 
     private JPanel panelPrincipal;
     private Gestion gestion;
-            
 
     public CrearEventosPantalla() {
         pantalla();
@@ -107,10 +108,10 @@ public class CrearEventosPantalla extends JFrame {
         textEquipo2 = new JTextField();
 
         labelTipoDeporte = new JLabel("Tipo de Deporte:");
-        comboTipoDeporte = new JComboBox<>(EventoDeportivo.TipoDeporte.values());
+        comboTipoDeporte = new JComboBox<>(TipoDeporte.values());
 
         labelTipoMusica = new JLabel("Tipo de Música:");
-        comboTipoMusica = new JComboBox<>(EventoMusical.TipoMusica.values());
+        comboTipoMusica = new JComboBox<>(TipoMusica.values());
 
         crearEventoButton = new JButton("Crear");
         cancelarButton = new JButton("Cancelar");
@@ -186,27 +187,29 @@ public class CrearEventosPantalla extends JFrame {
             new GestionEventosPantalla().setVisible(true);
             this.dispose();
         });
-        
+
         //Verificar que el evento exista o no
         try {
             textCodigo.addFocusListener(new FocusAdapter() {
-                
+
                 @Override
-                
+
                 public void focusLost(FocusEvent e) {
-                    int codigoEvento=0;
-                    try{
-                     codigoEvento = Integer.parseInt(textCodigo.getText());
-                    }catch(NumberFormatException u){System.out.println("");}
-                    
+                    int codigoEvento = 0;
+                    try {
+                        codigoEvento = Integer.parseInt(textCodigo.getText());
+                    } catch (NumberFormatException u) {
+                        System.out.println("");
+                    }
+
                     if (gestion.buscarEventos(codigoEvento, 0) != null || textCodigo.getText().isEmpty()) {
                         JOptionPane.showMessageDialog(CrearEventosPantalla.this, "Codigo de Evento ya existe o campo vacio.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                         crearEventoButton.setEnabled(false);
                         textCodigo.setText("");
                         textCodigo.requestFocus();
-                       
+
                     } else {
-                       
+
                         crearEventoButton.setEnabled(true);
                     }
                 }
@@ -216,17 +219,36 @@ public class CrearEventosPantalla extends JFrame {
             JOptionPane.showMessageDialog(CrearEventosPantalla.this, "Ocurrio un error." + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             System.out.println(e.getMessage());
         }
-        
-        
-        crearEventoButton.addActionListener(e->{
-            try{
-            int codigoEvento = Integer.parseInt(textCodigo.getText());
-            double montoRenta = Double.parseDouble(textMonto.getText());
-          JOptionPane.showMessageDialog(this, gestion.crearEvento(codigoEvento, textTituloEvento.getText(), textDescripcion.getText(), dateChooser.getCalendar(), montoRenta, comboTipoEvento.getSelectedItem().toString(), textEquipo1.getText(), textEquipo2.getText(), comboTipoDeporte.getSelectedItem().toString(), comboTipoMusica.getSelectedItem().toString()), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                  }
-        catch(Exception i){
-            JOptionPane.showMessageDialog(this, "Ocurrio un error: Textos de numeros no convertidos a String."+ i.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-        }});
+
+        crearEventoButton.addActionListener(e -> {
+            try {
+                int codigoEvento = Integer.parseInt(textCodigo.getText());
+                double montoRenta = Double.parseDouble(textMonto.getText());
+                int cantidadPersonas = Integer.parseInt(textMaxPersonas.getText());
+                if (comboTipoEvento.getSelectedItem().toString().equals("DEPORTIVO")) {
+                    if (cantidadPersonas >= 20000) {
+                        JOptionPane.showMessageDialog(this, "Cantidad de personas máxima permitida para eventos deportivos: 20,000", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                       
+
+                    }
+                } else if (comboTipoEvento.getSelectedItem().toString().equals("MUSICAL")) {
+                    if (cantidadPersonas >= 25000) {
+                        JOptionPane.showMessageDialog(this, "Cantidad de personas máxima permitida para eventos musicales: 25,000", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                     
+
+                    }
+                } else if (comboTipoEvento.getSelectedItem().toString().equals("RELIGIOSO")) {
+                    if (cantidadPersonas >= 30000) {
+                        JOptionPane.showMessageDialog(this, "Cantidad de personas máxima permitida para eventos religiosos: 30,000", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                       
+                    }
+                }else{
+                JOptionPane.showMessageDialog(this, gestion.crearEvento(codigoEvento, textTituloEvento.getText(), textDescripcion.getText(), dateChooser.getCalendar(), montoRenta, comboTipoEvento.getSelectedItem().toString(), textEquipo1.getText(), textEquipo2.getText(), comboTipoDeporte.getSelectedItem().toString(), comboTipoMusica.getSelectedItem().toString(), cantidadPersonas), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } catch (Exception i) {
+                JOptionPane.showMessageDialog(this, "Ocurrio un error: Textos de numeros no convertidos a String." + i.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        });
 
     }
 

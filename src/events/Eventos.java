@@ -15,15 +15,27 @@ public abstract class Eventos {
     protected Calendar fechaARealizar;
     protected double montoRenta;
     protected boolean cancelado;
+    protected int cantidadPersonas;
+  
     
-    public Eventos (int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta){
+    public Eventos (int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, int cantidadPersonas){
         this.codigoEvento = codigoEvento;
         this.tituloEvento = tituloEvento;
         this.descripcionEvento = descripcionEvento;
         this.fechaARealizar = fechaARealizar;
         this.montoRenta = montoRenta;
+        this.cantidadPersonas = cantidadPersonas;
+     
         cancelado = false;
        
+    }
+
+    public int getCantidadPersonas() {
+        return cantidadPersonas;
+    }
+
+    public void setCantidadPersonas(int cantidadPersonas) {
+        this.cantidadPersonas = cantidadPersonas;
     }
 
     public int getCodigoEvento() {
