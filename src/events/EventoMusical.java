@@ -11,8 +11,8 @@ import java.util.Calendar;
  * @author hnleo
  */
 public class EventoMusical extends Eventos {
-
-    public EventoMusical(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta) {
+  private String tipoMusica;
+    public EventoMusical(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String tipoMusica) {
         super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta);
     }
 
@@ -22,9 +22,11 @@ public class EventoMusical extends Eventos {
     }
 
     @Override
-    double calcularMonto() {
-        return 0;
-    }
+    public double getMontoRenta(){
+       double seguroDeGrama = montoRenta * 0.3;
+       return montoRenta + seguroDeGrama;
+   }
+    
     
     public enum TipoMusica{
         POP, ROCK, RAP, CLASICA, REGGEATON, OTRO

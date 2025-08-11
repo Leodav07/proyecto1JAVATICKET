@@ -17,11 +17,13 @@ public class EventoDeportivo extends Eventos {
     private ArrayList<String> equipo2;
     private String nombreEquipo1;
     private String nombreEquipo2;
+    private String tipoDeporte;
 
-    public EventoDeportivo(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String nombreEquipo1, String nombreEquipo2) {
+    public EventoDeportivo(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String nombreEquipo1, String nombreEquipo2, String tipoDeporte) {
         super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta);
         this.nombreEquipo1 = nombreEquipo1;
         this.nombreEquipo2 = nombreEquipo2;
+       this.tipoDeporte = tipoDeporte;
     }
 
     @Override
@@ -29,10 +31,6 @@ public class EventoDeportivo extends Eventos {
         return "DEPORTIVO";
     }
 
-    @Override
-    double calcularMonto() {
-        return 0;
-    }
 
     public String getNombreEquipo1() {
         return nombreEquipo1;

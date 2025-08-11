@@ -4,6 +4,9 @@
  */
 package login;
 
+import events.EventoDeportivo;
+import events.EventoMusical;
+import events.EventoReligioso;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import login.Admin;
@@ -11,6 +14,8 @@ import login.Contenido;
 import login.Limitado;
 import login.Usuario;
 import pantallas.AgregarUsuariosPantalla;
+import events.Eventos;
+import java.util.Calendar;
 
 /**
  *
@@ -22,6 +27,7 @@ public final class Gestion {
     public static Usuario usuarioActual;
     private static Gestion instancia;
     private AgregarUsuariosPantalla agregar;
+    private ArrayList<Eventos> eventos = new ArrayList<>();
 
     public Gestion() {
         usuarios.add(new Admin("ADMIN", "admin", "supersecreto", 30));
@@ -202,6 +208,60 @@ public final class Gestion {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+    
+    //GESTION DE EVENTOS
+    
+    public String crearEvento(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String tipoEvento, String nombreEquipo1, String nombreEquipo2, String tipoDeporte, String tipoMusica){
+      
+        try{
+        if(buscarEventos(codigoEvento, 0) != null){
+            return "Código de evento existente, favor crear otro.";
+        }
+        
+        Eventos nuevoEvento;
+        
+        switch(tipoEvento){
+            case ("DEPORTIVO"):
+                nuevoEvento = new EventoDeportivo(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, nombreEquipo1, nombreEquipo2, tipoDeporte);
+                break;
+            case("MUSICAL"):
+                nuevoEvento = new EventoMusical(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, tipoMusica);
+                break;
+                
+            case("RELIGIOSO"):
+                nuevoEvento = new EventoReligioso(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta);
+                break;
+                
+            default:
+                 return "Tipo de evento inválido.";
+               
+        }
+            
+          if(usuarioActual!= null && !usuarioActual.getTipoRol().equals("LIMITADO")){
+              Gestion.usuarioActual.getEventos().add(codigoEvento);
+          }
+          
+          eventos.add(nuevoEvento);
+          return "Evento "+ tipoEvento +" creado exitosamente.";
+            
+        }
+        catch (Exception e){
+            return "Ocurrio un error. "+ e.getMessage();
+        }
+        
+    }
+    
+    public Eventos buscarEventos(int codigoEvento, int x) { //Función recursiva #2
+        if (x >= eventos.size()) {
+            return null;
+        }
+        if (eventos.get(x).getCodigoEvento() == codigoEvento) {
+            return eventos.get(x);
+        }
+
+        return buscarEventos(codigoEvento, x + 1);
+
     }
 
 }

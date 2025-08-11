@@ -28,12 +28,12 @@ import java.util.Date;
  *
  * @author hnleo
  */
-
 public class CrearEventosPantalla extends JFrame {
 
-    private JLabel labelTipoEvento, labelCodigo, labelTituloEvento, labelDescripcion, labelFecha, labelMonto;
+    private JLabel labelTipoEvento, labelCodigo, labelTituloEvento, labelDescripcion, labelFecha, labelMonto, labelMaxPersonas;
     private JLabel labelEquipo1, labelEquipo2, labelTipoDeporte, labelTipoMusica;
-    private JTextField textCodigo, textTituloEvento, textDescripcion, textFecha, textMonto;
+    private JTextField textCodigo, textTituloEvento, textDescripcion, textMonto, textMaxPersonas;
+    private JDateChooser dateChooser = new JDateChooser();
     private JTextField textEquipo1, textEquipo2;
     private JComboBox<String> comboTipoEvento;
     private JComboBox<EventoDeportivo.TipoDeporte> comboTipoDeporte;
@@ -52,6 +52,8 @@ public class CrearEventosPantalla extends JFrame {
     private final int btnHeight = 30;
 
     private JPanel panelPrincipal;
+    private Gestion gestion;
+            
 
     public CrearEventosPantalla() {
         pantalla();
@@ -59,6 +61,7 @@ public class CrearEventosPantalla extends JFrame {
         agregarComponentes();
         agregarEventos();
         ajustarCamposSegunTipo("DEPORTIVO");
+        gestion = Gestion.getInstancia();
     }
 
     private void pantalla() {
@@ -82,6 +85,9 @@ public class CrearEventosPantalla extends JFrame {
         labelCodigo = new JLabel("Código:");
         textCodigo = new JTextField();
 
+        labelMaxPersonas = new JLabel("Cantidad de Personas:");
+        textMaxPersonas = new JTextField();
+
         labelTituloEvento = new JLabel("Título:");
         textTituloEvento = new JTextField();
 
@@ -89,7 +95,7 @@ public class CrearEventosPantalla extends JFrame {
         textDescripcion = new JTextField();
 
         labelFecha = new JLabel("Fecha (dd/mm/aaaa):");
-        textFecha = new JTextField();
+        dateChooser = new JDateChooser();
 
         labelMonto = new JLabel("Monto de renta (Lps):");
         textMonto = new JTextField();
@@ -149,9 +155,9 @@ public class CrearEventosPantalla extends JFrame {
 
         y += spacingY;
         labelFecha.setBounds(startXLabel, y, labelWidth, labelHeight);
-        textFecha.setBounds(startXField, y, fieldWidth, fieldHeight);
+        dateChooser.setBounds(startXField, y, fieldWidth, fieldHeight);
         panelPrincipal.add(labelFecha);
-        panelPrincipal.add(textFecha);
+        panelPrincipal.add(dateChooser);
 
         y += spacingY;
         labelMonto.setBounds(startXLabel, y, labelWidth, labelHeight);
@@ -175,16 +181,57 @@ public class CrearEventosPantalla extends JFrame {
                 ajustarCamposSegunTipo(seleccion);
             }
         });
-        
-        regresarButton.addActionListener(e->{
-           new GestionEventosPantalla().setVisible(true);
-           this.dispose();
-        });
 
-      
+        regresarButton.addActionListener(e -> {
+            new GestionEventosPantalla().setVisible(true);
+            this.dispose();
+        });
+        
+        //Verificar que el evento exista o no
+        try {
+            textCodigo.addFocusListener(new FocusAdapter() {
+                
+                @Override
+                
+                public void focusLost(FocusEvent e) {
+                    int codigoEvento=0;
+                    try{
+                     codigoEvento = Integer.parseInt(textCodigo.getText());
+                    }catch(NumberFormatException u){System.out.println("");}
+                    
+                    if (gestion.buscarEventos(codigoEvento, 0) != null || textCodigo.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(CrearEventosPantalla.this, "Codigo de Evento ya existe o campo vacio.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        crearEventoButton.setEnabled(false);
+                        textCodigo.setText("");
+                        textCodigo.requestFocus();
+                       
+                    } else {
+                       
+                        crearEventoButton.setEnabled(true);
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(CrearEventosPantalla.this, "Ocurrio un error." + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.getMessage());
+        }
+        
+        
+        crearEventoButton.addActionListener(e->{
+            try{
+            int codigoEvento = Integer.parseInt(textCodigo.getText());
+            double montoRenta = Double.parseDouble(textMonto.getText());
+          JOptionPane.showMessageDialog(this, gestion.crearEvento(codigoEvento, textTituloEvento.getText(), textDescripcion.getText(), dateChooser.getCalendar(), montoRenta, comboTipoEvento.getSelectedItem().toString(), textEquipo1.getText(), textEquipo2.getText(), comboTipoDeporte.getSelectedItem().toString(), comboTipoMusica.getSelectedItem().toString()), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                  }
+        catch(Exception i){
+            JOptionPane.showMessageDialog(this, "Ocurrio un error: Textos de numeros no convertidos a String."+ i.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        }});
+
     }
 
     private void ajustarCamposSegunTipo(String tipoEvento) {
+
         panelPrincipal.remove(labelEquipo1);
         panelPrincipal.remove(textEquipo1);
         panelPrincipal.remove(labelEquipo2);
@@ -193,11 +240,14 @@ public class CrearEventosPantalla extends JFrame {
         panelPrincipal.remove(comboTipoDeporte);
         panelPrincipal.remove(labelTipoMusica);
         panelPrincipal.remove(comboTipoMusica);
+        panelPrincipal.remove(labelMaxPersonas);
+        panelPrincipal.remove(textMaxPersonas);
 
-        int y = startY + 6 * spacingY; 
+        int y = startY + 6 * spacingY;
 
         if (tipoEvento.equals("DEPORTIVO")) {
             labelEquipo1.setBounds(startXLabel, y, labelWidth, labelHeight);
+
             textEquipo1.setBounds(startXField, y, fieldWidth, fieldHeight);
             panelPrincipal.add(labelEquipo1);
             panelPrincipal.add(textEquipo1);
@@ -214,14 +264,39 @@ public class CrearEventosPantalla extends JFrame {
             panelPrincipal.add(labelTipoDeporte);
             panelPrincipal.add(comboTipoDeporte);
             y += spacingY;
+
+            labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
+            labelMaxPersonas.setText("Cantidad de pers. (Max. 20,000):");
+
+            panelPrincipal.add(labelMaxPersonas);
+            panelPrincipal.add(textMaxPersonas);
+            y += spacingY;
+
         } else if (tipoEvento.equals("MUSICAL")) {
             labelTipoMusica.setBounds(startXLabel, y, labelWidth, labelHeight);
             comboTipoMusica.setBounds(startXField, y, fieldWidth, fieldHeight);
             panelPrincipal.add(labelTipoMusica);
             panelPrincipal.add(comboTipoMusica);
             y += spacingY;
+
+            labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
+            labelMaxPersonas.setText("Cantidad de pers. (Max. 25,000):");
+            panelPrincipal.add(labelMaxPersonas);
+            panelPrincipal.add(textMaxPersonas);
+            y += spacingY;
+
+        } else if (tipoEvento.equals("RELIGIOSO")) {
+            labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
+
+            panelPrincipal.add(labelMaxPersonas);
+            panelPrincipal.add(textMaxPersonas);
+            labelMaxPersonas.setText("Cantidad de pers. (Max. 30,000):");
+            y += spacingY;
         }
-       
+
         crearEventoButton.setBounds(startXLabel, y + 10, btnWidth, btnHeight);
         cancelarButton.setBounds(startXField, y + 10, btnWidth, btnHeight);
         regresarButton.setBounds((550 - btnWidth) / 2, y + 10 + btnHeight + 10, btnWidth, btnHeight);
@@ -229,6 +304,5 @@ public class CrearEventosPantalla extends JFrame {
         panelPrincipal.revalidate();
         panelPrincipal.repaint();
     }
-
 
 }

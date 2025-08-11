@@ -21,10 +21,10 @@ public class EventoReligioso extends Eventos {
         return "RELIGIOSO";
     }
 
-    @Override
-    double calcularMonto() {
-        return 0;
-    }
+   @Override
+   public double getMontoRenta(){
+       return montoRenta + 2000;
+   }
     
     
 

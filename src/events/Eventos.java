@@ -8,7 +8,7 @@ import java.util.Calendar;
  *
  * @author hnleo
  */
-abstract class Eventos {
+public abstract class Eventos {
     protected int codigoEvento;
     protected String tituloEvento;
     protected String descripcionEvento;
@@ -76,6 +76,6 @@ abstract class Eventos {
     
     
     abstract String getTipoEvento();
-    abstract double calcularMonto();
+    
     
 }
