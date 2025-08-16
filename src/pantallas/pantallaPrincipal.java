@@ -135,7 +135,11 @@ public class pantallaPrincipal extends JFrame {
         reportesButton.setBounds(290, 210, 220, 35);
         reportesButton.setFont(new Font("Verdana", Font.BOLD, 14));
         reportesButton.setForeground(Color.BLACK);
-
+        reportesButton.addActionListener(e->{
+        new GestionReportesPantalla().setVisible(true);
+        this.dispose();
+        });
+        
         cerrarSesionButton.setBounds(300, 260, 200, 35);
         cerrarSesionButton.setFont(new Font("Verdana", Font.BOLD, 14));
         cerrarSesionButton.setForeground(Color.BLACK);
@@ -191,7 +195,11 @@ public class pantallaPrincipal extends JFrame {
         reportesButton.setBounds(290, 210, 220, 35);
         reportesButton.setFont(new Font("Verdana", Font.BOLD, 14));
         reportesButton.setForeground(Color.BLACK);
-
+        reportesButton.addActionListener(e->{
+        new GestionReportesPantalla().setVisible(true);
+        this.dispose();
+        });
+       
         cerrarSesionButton.setBounds(300, 260, 200, 35);
         cerrarSesionButton.setFont(new Font("Verdana", Font.BOLD, 14));
         cerrarSesionButton.setForeground(Color.BLACK);

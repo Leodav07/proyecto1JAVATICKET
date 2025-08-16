@@ -505,38 +505,57 @@ public final class Gestion {
         final double[] sumadores = {0, 0, 0};
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YY");
         StringBuilder resultado = new StringBuilder();
-    
-            eventos.stream()
-                    .filter(evento -> evento.getFechaARealizar().getTime().after(fecha1.getTime()) && evento.getFechaARealizar().getTime().before(fecha2.getTime()))
-                    .forEach(evento -> {
-                        resultado.append(evento.getCodigoEvento()).append(" - ")
-                                .append(evento.getTipoEvento()).append(" - ")
-                                .append(evento.getTituloEvento()).append(" - ")
-                                .append(sdf.format(evento.getFechaARealizar().getTime())).append(" - ")
-                                .append(evento.getMontoRenta()).append(" Lps.\n");
 
-                        if (evento instanceof EventoDeportivo) {
-                            contadores[0]++;
-                            sumadores[0] += evento.getMontoRenta();
+        eventos.stream()
+                .filter(evento -> evento.getFechaARealizar().getTime().after(fecha1.getTime()) && evento.getFechaARealizar().getTime().before(fecha2.getTime()))
+                .forEach(evento -> {
+                    resultado.append(evento.getCodigoEvento()).append(" - ")
+                            .append(evento.getTipoEvento()).append(" - ")
+                            .append(evento.getTituloEvento()).append(" - ")
+                            .append(sdf.format(evento.getFechaARealizar().getTime())).append(" - ")
+                            .append(evento.getMontoRenta()).append(" Lps.\n");
 
-                        } else if (evento instanceof EventoMusical) {
-                            contadores[1]++;
-                            sumadores[1] += evento.getMontoRenta();
+                    if (evento instanceof EventoDeportivo) {
+                        contadores[0]++;
+                        sumadores[0] += evento.getMontoRenta();
 
-                        } else if (evento instanceof EventoReligioso) {
-                            contadores[2]++;
-                            sumadores[2] += evento.getMontoRenta();
+                    } else if (evento instanceof EventoMusical) {
+                        contadores[1]++;
+                        sumadores[1] += evento.getMontoRenta();
 
-                        }
-                    });
-        
+                    } else if (evento instanceof EventoReligioso) {
+                        contadores[2]++;
+                        sumadores[2] += evento.getMontoRenta();
+
+                    }
+                });
+
         resultado.append("\n--- ESTADÍSTICAS ---\n");
-        resultado.append("Total Generado: ").append(sumadores[0]+sumadores[1]+sumadores[2]).append(" Lps.\n");
+        resultado.append("Total Generado: ").append(sumadores[0] + sumadores[1] + sumadores[2]).append(" Lps.\n");
         resultado.append("N. Eventos Deportivos: ").append(contadores[0]).append(" - Total Generado: ").append(sumadores[0]).append(" Lps.\n");
         resultado.append("N. Eventos Musicales: ").append(contadores[1]).append(" - Total Generado: ").append(sumadores[1]).append(" Lps.\n");
         resultado.append("N. Eventos Religiosos: ").append(contadores[2]).append(" - Total Generado: ").append(sumadores[2]).append(" Lps.\n");
 
         return resultado.toString();
+    }
+
+    public String listaEventosUser() {
+        StringBuilder resultado = new StringBuilder();
+        if (!usuarioActual.getTipoRol().equals("LIMITADO")) {
+
+            for (Eventos event : eventos) {
+
+                if (usuarioActual.getEventos().contains(event.getCodigoEvento())) {
+                    resultado.append(event.getCodigoEvento()).append(" - ").append(event.getTipoEvento()).append(" - ").
+                            append(event.getTituloEvento()).append(" - ").append(event.getMontoRenta()).append(" Lps.").append("\n");
+                }
+
+            }
+        } else {
+            resultado.append("Este usuario no tiene permitido contener eventos.");
+        }
+        return resultado.toString();
+
     }
 
 }

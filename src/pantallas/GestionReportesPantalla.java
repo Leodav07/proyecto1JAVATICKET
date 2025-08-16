@@ -105,6 +105,8 @@ public class GestionReportesPantalla extends JFrame {
         });
 
         btnVerPerfil.addActionListener(e -> {
+            new VerPerfilPantalla().setVisible(true);
+            this.dispose();
         });
 
         btnRegresar.addActionListener(e -> {
