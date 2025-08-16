@@ -16,6 +16,7 @@ public abstract class Eventos {
     protected double montoRenta;
     protected boolean cancelado;
     protected int cantidadPersonas;
+    protected Calendar fechaHoy;
   
     
     public Eventos (int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, int cantidadPersonas){
@@ -27,7 +28,7 @@ public abstract class Eventos {
         this.cantidadPersonas = cantidadPersonas;
      
         cancelado = false;
-       
+        fechaHoy = Calendar.getInstance();
     }
 
     public int getCantidadPersonas() {
@@ -36,6 +37,9 @@ public abstract class Eventos {
     public String getCancelado(){
         if(cancelado){
             return "Cancelado";
+        }
+        if(fechaARealizar.getTime().before(fechaHoy.getTime())){
+            return "Realizado";
         }
         return "Activo";
     }

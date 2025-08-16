@@ -287,8 +287,8 @@ public final class Gestion {
     }
 
     public final String editarEvento(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String tipoEvento,
-            String nombreEquipo1,  String nombreEquipo2, String tipoDeporte, String tipoMusica, int cantidadPersonas,
-            ArrayList<String> jugadoresEq1,  ArrayList<String> jugadoresEq2,  ArrayList<String> integrantesMusicales,ArrayList<String> personasConvertidas) {
+            String nombreEquipo1, String nombreEquipo2, String tipoDeporte, String tipoMusica, int cantidadPersonas,
+            ArrayList<String> jugadoresEq1, ArrayList<String> jugadoresEq2, ArrayList<String> integrantesMusicales, ArrayList<String> personasConvertidas) {
         try {
             Eventos event = buscarEventos(codigoEvento, 0);
 
@@ -299,8 +299,8 @@ public final class Gestion {
             if (usuarioActual == null || !usuarioActual.getEventos().contains(codigoEvento)) {
                 return "Este evento no pertenece a tu cuenta.";
             }
-            
-            if(event.isCancelado()){
+
+            if (event.isCancelado()) {
                 return "Evento ya cancelado, no puedes realizar cambios.";
             }
 
@@ -410,8 +410,13 @@ public final class Gestion {
             if (usuarioActual == null || !usuarioActual.getEventos().contains(codigoEvento)) {
                 return "Este evento no pertenece a tu cuenta.";
             }
-            
+
             Eventos event = buscarEventos(codigoEvento, 0);
+
+            if (event.getCancelado().equals("Realizado")) {
+                return "Este evento ya se realizó, no puede ser cancelado.";
+            }
+
             event.setCancelado(true);
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YY");
             fecha.add(Calendar.DAY_OF_MONTH, -1);
@@ -430,7 +435,7 @@ public final class Gestion {
         } catch (Exception e) {
             return "Ocurrio un error de sistema. " + e.getMessage();
         }
-        
+
         return "Evento Cancelado.";
     }
 

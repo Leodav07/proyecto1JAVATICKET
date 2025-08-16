@@ -133,9 +133,12 @@ public class EditarUsuariosPantalla extends JFrame {
         regresarButton.setBounds((500 - btnWidth) / 2, btnStartY + (btnHeight + 10), btnWidth, btnHeight);
 
         crearUsuarioButton.addActionListener(e -> {
+            try{
             int edad = Integer.parseInt(edadText.getText());
             JOptionPane.showMessageDialog(this, gestion.editarUsuario(usuarioText.getText(), contrasennaText.getText(), comboTipoUsuario.getSelectedItem().toString(), textNombre.getText(), edad), "AVISO", JOptionPane.INFORMATION_MESSAGE);
-            
+            }catch(NumberFormatException o){
+                JOptionPane.showMessageDialog(this, "El valor de la edad debe ser númerico.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
         });
 
         cancelarUsuarioButton.addActionListener(e -> {

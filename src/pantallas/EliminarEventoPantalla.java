@@ -215,7 +215,14 @@ public class EliminarEventoPantalla extends JFrame {
                     textCodigo.requestFocus();
                     return;
                 }
-
+                Eventos evento = gestion.buscarEventos(codigo, 0);
+                if (evento == null) {
+                    JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    crearDeshabilitado();
+                    textCodigo.setText("");
+                    textCodigo.requestFocus();
+                    return;
+                }
                 try {
                     if (gestion.usuarioActual == null || !gestion.usuarioActual.getEventos().contains(codigo)) {
                         JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "Este evento no pertenece a tu cuenta.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
@@ -224,15 +231,6 @@ public class EliminarEventoPantalla extends JFrame {
                 } catch (Exception ex) {
 
                     JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "Error: No hay usuario logueado.", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                Eventos evento = gestion.buscarEventos(codigo, 0);
-                if (evento == null) {
-                    JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                    crearDeshabilitado();
-                    textCodigo.setText("");
-                    textCodigo.requestFocus();
                     return;
                 }
 
@@ -314,19 +312,19 @@ public class EliminarEventoPantalla extends JFrame {
                 crearHabilitado();
             }
         });
-        
-        eliminarEventoButton.addActionListener(e->{
-         String texto = textCodigo.getText().trim();
-         if(texto.isEmpty()){
-                 JOptionPane.showMessageDialog(this,"Vacío", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                 return;
-                 }
-         int codigoEvento = Integer.parseInt(texto);
-         Calendar fecha = dateChooser.getCalendar();
-         JOptionPane.showMessageDialog(this, gestion.eliminarEvento(codigoEvento, fecha), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-         
+
+        eliminarEventoButton.addActionListener(e -> {
+            String texto = textCodigo.getText().trim();
+            if (texto.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Vacío", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            int codigoEvento = Integer.parseInt(texto);
+            Calendar fecha = dateChooser.getCalendar();
+            JOptionPane.showMessageDialog(this, gestion.eliminarEvento(codigoEvento, fecha), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+
         });
-        
+
         cancelarButton.addActionListener(e -> {
             limpiarCampos();
             textCodigo.setEnabled(true);

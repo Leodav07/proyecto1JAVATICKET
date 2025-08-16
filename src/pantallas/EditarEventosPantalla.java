@@ -224,10 +224,7 @@ public class EditarEventosPantalla extends JFrame {
 
                 try {
                     codigo = Integer.parseInt(texto);
-                    if (gestion.buscarEventos(codigo, 0).isCancelado()) {
-                     JOptionPane.showMessageDialog(EditarEventosPantalla.this, "Evento cancelado, no puedes realizar cambios.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                    return;
-                    }
+                    
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(EditarEventosPantalla.this, "El código debe ser numérico.", "ERROR", JOptionPane.ERROR_MESSAGE);
                     textCodigo.requestFocus();
@@ -235,6 +232,15 @@ public class EditarEventosPantalla extends JFrame {
                 }
 
                 // Verificar que el evento pertenece al usuario actual
+                 Eventos evento = gestion.buscarEventos(codigo, 0);
+                if (evento == null) {
+                    JOptionPane.showMessageDialog(EditarEventosPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    crearDeshabilitado();
+                    textCodigo.setText("");
+                    textCodigo.requestFocus();
+                    return;
+                }
+                
                 try {
                     if (gestion.usuarioActual == null || !gestion.usuarioActual.getEventos().contains(codigo)) {
                         JOptionPane.showMessageDialog(EditarEventosPantalla.this, "Este evento no pertenece a tu cuenta.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
@@ -246,16 +252,13 @@ public class EditarEventosPantalla extends JFrame {
                     return;
                 }
 
-                Eventos evento = gestion.buscarEventos(codigo, 0);
-                if (evento == null) {
-                    JOptionPane.showMessageDialog(EditarEventosPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                    crearDeshabilitado();
-                    textCodigo.setText("");
-                    textCodigo.requestFocus();
+               
+                
+                if (gestion.buscarEventos(codigo, 0).isCancelado()) {
+                     JOptionPane.showMessageDialog(EditarEventosPantalla.this, "Evento cancelado, no puedes realizar cambios.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                     return;
-                }
+                    }
 
-                // Cargar datos del evento
                 textTituloEvento.setText(evento.getTituloEvento());
                 textDescripcion.setText(evento.getDescripcionEvento());
                 dateChooser.setCalendar(evento.getFechaARealizar());

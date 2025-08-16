@@ -126,7 +126,7 @@ public class VerEventoPantalla extends JFrame {
         labelTipoMusica = new JLabel("Tipo de Música:");
         comboTipoMusica = new JComboBox<>(TipoMusica.values());
 
-        verEventoButton = new JButton("Cancelar Evento");
+        verEventoButton = new JButton("Ver Evento");
         cancelarButton = new JButton("Cancelar");
         regresarButton = new JButton("Regresar");
     }

@@ -154,12 +154,16 @@ public class AgregarUsuariosPantalla extends JFrame {
         }
         
         crearUsuarioButton.addActionListener(e->{
+            try{
             int edad = Integer.parseInt(edadText.getText());
            JOptionPane.showMessageDialog(this, gestion.agregarUsuarios(usuarioText.getText(), contrasennaText.getText(), comboTipoUsuario.getSelectedItem().toString(), textNombre.getText(), edad), "AVISO", JOptionPane.INFORMATION_MESSAGE);
            textNombre.setText("");
            usuarioText.setText("");
            contrasennaText.setText("");
            edadText.setText("");
+            }catch(NumberFormatException o){
+                JOptionPane.showMessageDialog(this, "El valor de la edad debe ser númerico.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
            
         });
         
