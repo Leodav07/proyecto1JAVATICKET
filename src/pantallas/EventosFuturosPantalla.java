@@ -12,18 +12,18 @@ import login.Gestion;
  *
  * @author hnleo
  */
-public class EventosRealizadosPantalla extends JFrame {
+public class EventosFuturosPantalla extends JFrame {
 
     private JTextArea textAreaEventos;
     private JButton btnRegresar;
     private Gestion gestion;
 
-    public EventosRealizadosPantalla() {
+    public EventosFuturosPantalla() {
     gestion = Gestion.getInstancia();
     pantalla();
     }
     public void pantalla(){    
-        setTitle("JAVA EVENTS - Listado de Eventos");
+        setTitle("JAVA EVENTS - Listado de Eventos ");
         setSize(500, 500);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -41,7 +41,7 @@ public class EventosRealizadosPantalla extends JFrame {
         titulo.setFont(new Font("Arial", Font.BOLD, 24));
         titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel subtitulo = new JLabel("Listado de eventos realizados", SwingConstants.CENTER);
+        JLabel subtitulo = new JLabel("Listado de eventos futuros", SwingConstants.CENTER);
         subtitulo.setFont(new Font("Arial", Font.PLAIN, 18));
         subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -66,7 +66,7 @@ public class EventosRealizadosPantalla extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
         try{
         
-        textAreaEventos.append(gestion.listadoEventosRealizados("Realizado"));
+        textAreaEventos.append(gestion.listadoEventosRealizados("Activo"));
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Error: No hay eventos que mostrar." + e.getMessage());
             
@@ -80,3 +80,4 @@ public class EventosRealizadosPantalla extends JFrame {
 
 
 }
+

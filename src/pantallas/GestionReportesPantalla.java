@@ -90,12 +90,18 @@ public class GestionReportesPantalla extends JFrame {
         });
 
         btnEventosFuturos.addActionListener(e -> {
+            new EventosFuturosPantalla().setVisible(true);
+            this.dispose();
         });
 
         btnEventosCancelados.addActionListener(e -> {
+            new EventosCanceladosPantalla().setVisible(true);
+            this.dispose();
         });
 
         btnIngresos.addActionListener(e -> {
+            new EventosPorRangoPantalla().setVisible(true);
+            this.dispose();
         });
 
         btnVerPerfil.addActionListener(e -> {
@@ -107,10 +113,5 @@ public class GestionReportesPantalla extends JFrame {
         });
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            GestionReportesPantalla ventana = new GestionReportesPantalla();
-            ventana.setVisible(true);
-        });
-    }
+  
 }

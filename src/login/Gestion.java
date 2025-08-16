@@ -307,8 +307,8 @@ public final class Gestion {
             if (event.isCancelado()) {
                 return "Evento ya cancelado, no puedes realizar cambios.";
             }
-
-            if (verSiHayEvento(codigoEvento, fechaARealizar, 0)) {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YY");
+            if (verSiHayEvento(codigoEvento, fechaARealizar, 0) && !sdf.format(event.getFechaARealizar().getTime()).equals(sdf.format(fechaARealizar.getTime()))) {
                 return "La fecha que solicitas para tu evento ya está ocupada por otro evento, escoge otra fecha.";
             }
 
@@ -447,7 +447,7 @@ public final class Gestion {
         return "Evento Cancelado.";
     }
 
-    public boolean verSiHayEvento(int codigoEvento, Calendar fecha, int x) { //Funcion recursiva 3
+    public boolean verSiHayEvento(int codigoEvento, Calendar fecha, int x) { //Funcion recursiva #3
         if (x >= eventos.size()) {
             return false;
         }
@@ -463,7 +463,7 @@ public final class Gestion {
         return verSiHayEvento(codigoEvento, fecha, x + 1);
     }
 
-    public String listadoEventosRealizados() {
+    public String listadoEventosRealizados(String estado) {
         final int[] contadores = {0, 0, 0};
         final double[] sumadores = {0, 0, 0};
 
@@ -471,7 +471,7 @@ public final class Gestion {
         StringBuilder resultado = new StringBuilder();
 
         eventos.stream()
-                .filter(evento -> "Realizado".equals(evento.getCancelado()))
+                .filter(evento -> estado.equals(evento.getCancelado()))
                 .sorted((e1, e2) -> e2.getFechaARealizar().compareTo(e1.getFechaARealizar()))
                 .forEach(evento -> {
                     resultado.append(evento.getCodigoEvento()).append(" - ")
@@ -493,10 +493,48 @@ public final class Gestion {
                 });
 
         resultado.append("\n--- ESTADÍSTICAS ---\n");
+        resultado.append("N. Eventos Deportivos: ").append(contadores[0]).append(" - Total " + (estado.equals("Cancelado") ? "Multa" : "Generado") + ": ").append(sumadores[0]).append(" Lps.\n");
+        resultado.append("N. Eventos Musicales: ").append(contadores[1]).append(" - Total " + (estado.equals("Cancelado") ? "Multa" : "Generado") + ": ").append(sumadores[1]).append(" Lps.\n");
+        resultado.append("N. Eventos Religiosos: ").append(contadores[2]).append(" - Total " + (estado.equals("Cancelado") ? "Multa" : "Generado") + ": ").append(sumadores[2]).append(" Lps.\n");
+
+        return resultado.toString();
+    }
+
+    public String eventoPorRango(Calendar fecha1, Calendar fecha2) {
+        final int[] contadores = {0, 0, 0};
+        final double[] sumadores = {0, 0, 0};
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YY");
+        StringBuilder resultado = new StringBuilder();
+    
+            eventos.stream()
+                    .filter(evento -> evento.getFechaARealizar().getTime().after(fecha1.getTime()) && evento.getFechaARealizar().getTime().before(fecha2.getTime()))
+                    .forEach(evento -> {
+                        resultado.append(evento.getCodigoEvento()).append(" - ")
+                                .append(evento.getTipoEvento()).append(" - ")
+                                .append(evento.getTituloEvento()).append(" - ")
+                                .append(sdf.format(evento.getFechaARealizar().getTime())).append(" - ")
+                                .append(evento.getMontoRenta()).append(" Lps.\n");
+
+                        if (evento instanceof EventoDeportivo) {
+                            contadores[0]++;
+                            sumadores[0] += evento.getMontoRenta();
+
+                        } else if (evento instanceof EventoMusical) {
+                            contadores[1]++;
+                            sumadores[1] += evento.getMontoRenta();
+
+                        } else if (evento instanceof EventoReligioso) {
+                            contadores[2]++;
+                            sumadores[2] += evento.getMontoRenta();
+
+                        }
+                    });
+        
+        resultado.append("\n--- ESTADÍSTICAS ---\n");
+        resultado.append("Total Generado: ").append(sumadores[0]+sumadores[1]+sumadores[2]).append(" Lps.\n");
         resultado.append("N. Eventos Deportivos: ").append(contadores[0]).append(" - Total Generado: ").append(sumadores[0]).append(" Lps.\n");
         resultado.append("N. Eventos Musicales: ").append(contadores[1]).append(" - Total Generado: ").append(sumadores[1]).append(" Lps.\n");
         resultado.append("N. Eventos Religiosos: ").append(contadores[2]).append(" - Total Generado: ").append(sumadores[2]).append(" Lps.\n");
-        
 
         return resultado.toString();
     }
