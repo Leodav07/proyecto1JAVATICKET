@@ -18,12 +18,16 @@ public class EventoDeportivo extends Eventos {
     private String nombreEquipo1;
     private String nombreEquipo2;
     private String tipoDeporte;
-
+    private ArrayList<String> listaJugadoresEquipo1;
+    private ArrayList<String> listaJugadoresEquipo2;
     public EventoDeportivo(int codigoEvento, String tituloEvento, String descripcionEvento, Calendar fechaARealizar, double montoRenta, String nombreEquipo1, String nombreEquipo2, String tipoDeporte, int cantidadPersonas) {
         super(codigoEvento, tituloEvento, descripcionEvento, fechaARealizar, montoRenta, cantidadPersonas);
         this.nombreEquipo1 = nombreEquipo1;
         this.nombreEquipo2 = nombreEquipo2;
        this.tipoDeporte = tipoDeporte;
+       listaJugadoresEquipo1 = new ArrayList<>();
+       listaJugadoresEquipo2 = new ArrayList<>();
+       
     }
 
     @Override
@@ -34,7 +38,10 @@ public class EventoDeportivo extends Eventos {
     public String getTipoDeporte() {
         return tipoDeporte;
     }
-
+    @Override
+    public String getCancelado(){
+        return super.getCancelado();
+    }
     public void setNombreEquipo1(String nombreEquipo1) {
         this.nombreEquipo1 = nombreEquipo1;
     }
@@ -47,6 +54,21 @@ public class EventoDeportivo extends Eventos {
         this.tipoDeporte = tipoDeporte;
     }
 
+    public ArrayList<String> getListaJugadoresEquipo1() {
+        return listaJugadoresEquipo1;
+    }
+
+    public void setListaJugadoresEquipo1(ArrayList<String> nombreJugador) {
+        this.listaJugadoresEquipo1 = nombreJugador;
+    }
+
+    public ArrayList<String> getListaJugadoresEquipo2() {
+        return listaJugadoresEquipo2;
+    }
+
+    public void setListaJugadoresEquipo2(ArrayList<String> nombreJugador) {
+        this.listaJugadoresEquipo2 = nombreJugador;
+    }
 
     public String getNombreEquipo1() {
         return nombreEquipo1;

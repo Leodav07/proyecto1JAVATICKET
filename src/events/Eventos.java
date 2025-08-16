@@ -33,7 +33,12 @@ public abstract class Eventos {
     public int getCantidadPersonas() {
         return cantidadPersonas;
     }
-
+    public String getCancelado(){
+        if(cancelado){
+            return "Cancelado";
+        }
+        return "Activo";
+    }
     public void setCantidadPersonas(int cantidadPersonas) {
         this.cantidadPersonas = cantidadPersonas;
     }

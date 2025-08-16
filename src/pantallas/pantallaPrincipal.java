@@ -123,7 +123,11 @@ public class pantallaPrincipal extends JFrame {
         adminEventButton.setBounds(300, 160, 200, 35);
         adminEventButton.setFont(new Font("Verdana", Font.BOLD, 14));
         adminEventButton.setForeground(Color.BLACK);
-
+        adminEventButton.addActionListener(e->{
+           new GestionEventosPantalla().setVisible(true);
+           this.dispose();
+        });
+        
         reportesButton.setBounds(290, 210, 220, 35);
         reportesButton.setFont(new Font("Verdana", Font.BOLD, 14));
         reportesButton.setForeground(Color.BLACK);
@@ -175,7 +179,11 @@ public class pantallaPrincipal extends JFrame {
         verEventosButton.setBounds(300, 160, 200, 35);
         verEventosButton.setFont(new Font("Verdana", Font.BOLD, 14));
         verEventosButton.setForeground(Color.BLACK);
-
+        verEventosButton.addActionListener(e->{
+            new VerEventoPantalla().setVisible(true);
+            this.dispose();
+        });
+        
         reportesButton.setBounds(290, 210, 220, 35);
         reportesButton.setFont(new Font("Verdana", Font.BOLD, 14));
         reportesButton.setForeground(Color.BLACK);

@@ -70,13 +70,23 @@ public class GestionEventosPantalla extends JFrame {
 
         editarEventoButton.setBounds(centerX, startY + (btnHeight + spacing), btnWidth, btnHeight);
         editarEventoButton.setFont(new Font("Verdana", Font.BOLD, 14));
+        editarEventoButton.addActionListener(e->{
+           new EditarEventosPantalla().setVisible(true);
+           this.dispose();
+        });
 
         eliminarEventoButton.setBounds(centerX, startY + 2 * (btnHeight + spacing), btnWidth, btnHeight);
         eliminarEventoButton.setFont(new Font("Verdana", Font.BOLD, 14));
-
+        eliminarEventoButton.addActionListener(e->{
+           new EliminarEventoPantalla().setVisible(true);
+           this.dispose();
+        });
         verEventoButton.setBounds(centerX, startY + 3 * (btnHeight + spacing), btnWidth, btnHeight);
         verEventoButton.setFont(new Font("Verdana", Font.BOLD, 14));
-
+        verEventoButton.addActionListener(e->{
+            new VerEventoPantalla().setVisible(true);
+            this.dispose();
+        });
         regresarButton.setBounds(centerX, startY + 4 * (btnHeight + spacing), btnWidth, btnHeight);
         regresarButton.setFont(new Font("Verdana", Font.BOLD, 14));
         regresarButton.addActionListener(e->{

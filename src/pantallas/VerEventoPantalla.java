@@ -1,36 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pantallas;
 
+import com.toedter.calendar.JDateChooser;
 import events.EventoDeportivo;
 import events.EventoMusical;
+import events.EventoReligioso;
+import events.Eventos;
+import events.TipoDeporte;
+import events.TipoMusica;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import login.Gestion;
+import java.util.ArrayList;
 import java.util.Calendar;
-import com.toedter.calendar.JDateChooser;
-import events.TipoDeporte;
-import events.TipoMusica;
-import java.util.Date;
+import javax.swing.*;
+import login.Gestion;
 
 /**
- *
  * @author hnleo
  */
-public class CrearEventosPantalla extends JFrame {
+public class VerEventoPantalla extends JFrame {
 
     private JLabel labelTipoEvento, labelCodigo, labelTituloEvento, labelDescripcion, labelFecha, labelMonto, labelMaxPersonas;
     private JLabel labelEquipo1, labelEquipo2, labelTipoDeporte, labelTipoMusica;
@@ -40,7 +30,15 @@ public class CrearEventosPantalla extends JFrame {
     private JComboBox<String> comboTipoEvento;
     private JComboBox<TipoDeporte> comboTipoDeporte;
     private JComboBox<TipoMusica> comboTipoMusica;
-    private JButton crearEventoButton, cancelarButton, regresarButton;
+    private JButton verEventoButton, cancelarButton, regresarButton;
+    private JLabel labelJugadoresEq1, labelJugadoresEq2;
+    private JTextField textJugadoresEq1, textJugadoresEq2;
+    private JLabel labelIntegrantes;
+    private JTextField textIntegrantes;
+    private JLabel labelPersonasConvertidas;
+    private JTextField textPersonasConvertidas;
+    private JLabel labelCancelado;
+    private JTextField textCancelado;
 
     private final int labelWidth = 180;
     private final int labelHeight = 25;
@@ -56,13 +54,22 @@ public class CrearEventosPantalla extends JFrame {
     private JPanel panelPrincipal;
     private Gestion gestion;
 
-    public CrearEventosPantalla() {
+    private ArrayList<String> listaJugEq1 = new ArrayList<>();
+    private ArrayList<String> listaJugEq2 = new ArrayList<>();
+    private ArrayList<String> listaIntegrantes = new ArrayList<>();
+    private ArrayList<String> listaPersonasConvertidas = new ArrayList<>();
+
+    public VerEventoPantalla() {
         pantalla();
         configurarVentana();
         agregarComponentes();
+
+        gestion = Gestion.getInstancia();
+
         agregarEventos();
         ajustarCamposSegunTipo("DEPORTIVO");
-        gestion = Gestion.getInstancia();
+        desactivarCampos();
+
     }
 
     private void pantalla() {
@@ -75,57 +82,63 @@ public class CrearEventosPantalla extends JFrame {
         labelTitulo.setBounds(0, 20, 550, 40);
         panelPrincipal.add(labelTitulo);
 
-        JLabel labelSubtitulo = new JLabel("Creación de Evento", SwingConstants.CENTER);
+        JLabel labelSubtitulo = new JLabel("Cancelar Evento", SwingConstants.CENTER);
         labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 14));
         labelSubtitulo.setBounds(0, 60, 550, 20);
         panelPrincipal.add(labelSubtitulo);
 
         labelTipoEvento = new JLabel("Tipo de Evento:");
         comboTipoEvento = new JComboBox<>(new String[]{"DEPORTIVO", "MUSICAL", "RELIGIOSO"});
-
         labelCodigo = new JLabel("Código:");
         textCodigo = new JTextField();
-
         labelMaxPersonas = new JLabel("Cantidad de Personas:");
         textMaxPersonas = new JTextField();
-
         labelTituloEvento = new JLabel("Título:");
         textTituloEvento = new JTextField();
-
         labelDescripcion = new JLabel("Descripción:");
         textDescripcion = new JTextField();
-
         labelFecha = new JLabel("Fecha (dd/mm/aaaa):");
         dateChooser = new JDateChooser();
-
         labelMonto = new JLabel("Monto de renta (Lps):");
         textMonto = new JTextField();
+        labelCancelado = new JLabel("Estado:");
+        textCancelado = new JTextField();
 
         labelEquipo1 = new JLabel("Equipo 1:");
         textEquipo1 = new JTextField();
-
         labelEquipo2 = new JLabel("Equipo 2:");
         textEquipo2 = new JTextField();
 
+        labelJugadoresEq1 = new JLabel("Jugadores Equipo 1:");
+        textJugadoresEq1 = new JTextField();
+
+        labelJugadoresEq2 = new JLabel("Jugadores Equipo 2:");
+        textJugadoresEq2 = new JTextField();
+
+        labelIntegrantes = new JLabel("Integrantes:");
+        textIntegrantes = new JTextField();
+
+        labelPersonasConvertidas = new JLabel("Personas convertidas:");
+        textPersonasConvertidas = new JTextField();
+
         labelTipoDeporte = new JLabel("Tipo de Deporte:");
         comboTipoDeporte = new JComboBox<>(TipoDeporte.values());
-
         labelTipoMusica = new JLabel("Tipo de Música:");
         comboTipoMusica = new JComboBox<>(TipoMusica.values());
 
-        crearEventoButton = new JButton("Crear");
+        verEventoButton = new JButton("Cancelar Evento");
         cancelarButton = new JButton("Cancelar");
         regresarButton = new JButton("Regresar");
     }
 
     private void configurarVentana() {
-        this.setSize(550, 700);
+        this.setSize(550, 720);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setTitle("JAVA EVENTS");
         this.add(panelPrincipal);
-        panelPrincipal.setBounds(0, 0, 550, 700);
+        panelPrincipal.setBounds(0, 0, 550, 720);
     }
 
     private void agregarComponentes() {
@@ -166,11 +179,16 @@ public class CrearEventosPantalla extends JFrame {
         panelPrincipal.add(labelMonto);
         panelPrincipal.add(textMonto);
 
-        crearEventoButton.setBounds(startXLabel, y + 6 * spacingY, btnWidth, btnHeight);
+        y += spacingY;
+        labelCancelado.setBounds(startXLabel, y, labelWidth, labelHeight);
+        textCancelado.setBounds(startXField, y, fieldWidth, fieldHeight);
+        panelPrincipal.add(labelCancelado);
+        panelPrincipal.add(textCancelado);
+
+        verEventoButton.setBounds(startXLabel, y + 6 * spacingY, btnWidth, btnHeight);
         cancelarButton.setBounds(startXField, y + 6 * spacingY, btnWidth, btnHeight);
         regresarButton.setBounds((550 - btnWidth) / 2, y + 6 * spacingY + btnHeight + 10, btnWidth, btnHeight);
-
-        panelPrincipal.add(crearEventoButton);
+        panelPrincipal.add(verEventoButton);
         panelPrincipal.add(cancelarButton);
         panelPrincipal.add(regresarButton);
     }
@@ -188,88 +206,83 @@ public class CrearEventosPantalla extends JFrame {
             this.dispose();
         });
 
-        //Verificar que el evento exista o no
-        try {
-            textCodigo.addFocusListener(new FocusAdapter() {
-
-                @Override
-
-                public void focusLost(FocusEvent e) {
-                    int codigoEvento = 0;
-                    try {
-                        codigoEvento = Integer.parseInt(textCodigo.getText());
-                    } catch (NumberFormatException u) {
-                        System.out.println("");
-                    }
-
-                    if (gestion.buscarEventos(codigoEvento, 0) != null || textCodigo.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(CrearEventosPantalla.this, "Codigo de Evento ya existe o campo vacio.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                        crearEventoButton.setEnabled(false);
-                        textCodigo.setText("");
-                        textCodigo.requestFocus();
-
-                    } else {
-
-                        crearEventoButton.setEnabled(true);
-                    }
-                }
-            });
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(CrearEventosPantalla.this, "Ocurrio un error." + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-            System.out.println(e.getMessage());
-        }
-
-        crearEventoButton.addActionListener(e -> {
-            try {
-                int codigoEvento = Integer.parseInt(textCodigo.getText());
-                double montoRenta = Double.parseDouble(textMonto.getText());
-                int cantidadPersonas = Integer.parseInt(textMaxPersonas.getText());
-                if (comboTipoEvento.getSelectedItem().toString().equals("DEPORTIVO")) {
-                    if (cantidadPersonas > 20000) {
-                        JOptionPane.showMessageDialog(this, "Cantidad de personas máxima permitida para eventos deportivos: 20,000", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                       return;
-
-                    }
-                } else if (comboTipoEvento.getSelectedItem().toString().equals("MUSICAL")) {
-                    if (cantidadPersonas > 25000) {
-                        JOptionPane.showMessageDialog(this, "Cantidad de personas máxima permitida para eventos musicales: 25,000", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                     return;
-
-                    }
-                } else if (comboTipoEvento.getSelectedItem().toString().equals("RELIGIOSO")) {
-                    if (cantidadPersonas > 30000) {
-                        JOptionPane.showMessageDialog(this, "Cantidad de personas máxima permitida para eventos religiosos: 30,000", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                       return;
-                    }
-                }
-                JOptionPane.showMessageDialog(this, gestion.crearEvento(codigoEvento, textTituloEvento.getText(), textDescripcion.getText(), dateChooser.getCalendar(), montoRenta, comboTipoEvento.getSelectedItem().toString(), textEquipo1.getText(), textEquipo2.getText(), comboTipoDeporte.getSelectedItem().toString(), comboTipoMusica.getSelectedItem().toString(), cantidadPersonas), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                limpiarCampos();
-                textCodigo.requestFocus();
-            } catch (Exception i) {
-                JOptionPane.showMessageDialog(this, "Ocurrio un error: Textos de numeros no convertidos a String." + i.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+        verEventoButton.addActionListener(e -> {
+            String texto = textCodigo.getText().trim();
+            if (texto.isEmpty()) {
+                return;
             }
+            int codigo;
+            try {
+                codigo = Integer.parseInt(texto);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(VerEventoPantalla.this, "El código debe ser numérico.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                textCodigo.requestFocus();
+                return;
+            }
+
+            Eventos evento = gestion.buscarEventos(codigo, 0);
+            if (evento == null) {
+                JOptionPane.showMessageDialog(VerEventoPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+
+                textCodigo.setText("");
+                textCodigo.requestFocus();
+                return;
+            }
+
+            textTituloEvento.setText(evento.getTituloEvento());
+            textDescripcion.setText(evento.getDescripcionEvento());
+            dateChooser.setCalendar(evento.getFechaARealizar());
+            textMonto.setText(String.valueOf(evento.getMontoRenta()));
+            textMaxPersonas.setText(String.valueOf(evento.getCantidadPersonas()));
+            textCancelado.setText(evento.getCancelado());
+
+            if (evento instanceof EventoDeportivo) {
+                comboTipoEvento.setSelectedItem("DEPORTIVO");
+                ajustarCamposSegunTipo("DEPORTIVO");
+                EventoDeportivo dep = (EventoDeportivo) evento;
+                textEquipo1.setText(dep.getNombreEquipo1());
+                textEquipo2.setText(dep.getNombreEquipo2());
+                try {
+                    comboTipoDeporte.setSelectedItem(TipoDeporte.valueOf(String.valueOf(dep.getTipoDeporte()).toUpperCase()));
+                } catch (Exception ex) {
+
+                }
+            } else if (evento instanceof EventoMusical) {
+                comboTipoEvento.setSelectedItem("MUSICAL");
+                ajustarCamposSegunTipo("MUSICAL");
+                EventoMusical mus = (EventoMusical) evento;
+                try {
+                    comboTipoMusica.setSelectedItem(TipoMusica.valueOf(String.valueOf(mus.getTipoMusica()).toUpperCase()));
+                } catch (Exception ex) {
+
+                }
+            } else if (evento instanceof EventoReligioso) {
+                comboTipoEvento.setSelectedItem("RELIGIOSO");
+                ajustarCamposSegunTipo("RELIGIOSO");
+            }
+
+            textCodigo.setEnabled(false);
+
+        }
+        );
+
+        cancelarButton.addActionListener(e -> {
+            limpiarCampos();
+            textCodigo.setEnabled(true);
+            crearHabilitado();
         });
 
     }
-    
-    private void limpiarCampos(){
-        textCodigo.setText("");
-        textTituloEvento.setText("");
-        textDescripcion.setText("");
-        dateChooser.setCalendar(null);
-        textMonto.setText("");
-        textMaxPersonas.setText("");
-        textEquipo1.setText("");
-        textEquipo2.setText("");
-        comboTipoDeporte.setSelectedIndex(0);
-        comboTipoMusica.setSelectedIndex(0);
-        comboTipoEvento.setSelectedIndex(0);
 
+    private void crearDeshabilitado() {
+        verEventoButton.setEnabled(false);
+    }
+
+    private void crearHabilitado() {
+        verEventoButton.setEnabled(true);
     }
 
     private void ajustarCamposSegunTipo(String tipoEvento) {
-
         panelPrincipal.remove(labelEquipo1);
         panelPrincipal.remove(textEquipo1);
         panelPrincipal.remove(labelEquipo2);
@@ -281,11 +294,22 @@ public class CrearEventosPantalla extends JFrame {
         panelPrincipal.remove(labelMaxPersonas);
         panelPrincipal.remove(textMaxPersonas);
 
-        int y = startY + 6 * spacingY;
+        panelPrincipal.remove(labelJugadoresEq1);
+        panelPrincipal.remove(textJugadoresEq1);
 
-        if (tipoEvento.equals("DEPORTIVO")) {
+        panelPrincipal.remove(labelJugadoresEq2);
+        panelPrincipal.remove(textJugadoresEq2);
+
+        panelPrincipal.remove(labelIntegrantes);
+        panelPrincipal.remove(textIntegrantes);
+
+        panelPrincipal.remove(labelPersonasConvertidas);
+        panelPrincipal.remove(textPersonasConvertidas);
+
+        int y = startY + 7 * spacingY;
+
+        if ("DEPORTIVO".equals(tipoEvento)) {
             labelEquipo1.setBounds(startXLabel, y, labelWidth, labelHeight);
-
             textEquipo1.setBounds(startXField, y, fieldWidth, fieldHeight);
             panelPrincipal.add(labelEquipo1);
             panelPrincipal.add(textEquipo1);
@@ -297,6 +321,18 @@ public class CrearEventosPantalla extends JFrame {
             panelPrincipal.add(textEquipo2);
             y += spacingY;
 
+            labelJugadoresEq1.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textJugadoresEq1.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelJugadoresEq1);
+            panelPrincipal.add(textJugadoresEq1);
+            y += spacingY;
+
+            labelJugadoresEq2.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textJugadoresEq2.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelJugadoresEq2);
+            panelPrincipal.add(textJugadoresEq2);
+            y += spacingY;
+
             labelTipoDeporte.setBounds(startXLabel, y, labelWidth, labelHeight);
             comboTipoDeporte.setBounds(startXField, y, fieldWidth, fieldHeight);
             panelPrincipal.add(labelTipoDeporte);
@@ -306,12 +342,11 @@ public class CrearEventosPantalla extends JFrame {
             labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
             textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
             labelMaxPersonas.setText("Cantidad de pers. (Max. 20,000):");
-
             panelPrincipal.add(labelMaxPersonas);
             panelPrincipal.add(textMaxPersonas);
             y += spacingY;
 
-        } else if (tipoEvento.equals("MUSICAL")) {
+        } else if ("MUSICAL".equals(tipoEvento)) {
             labelTipoMusica.setBounds(startXLabel, y, labelWidth, labelHeight);
             comboTipoMusica.setBounds(startXField, y, fieldWidth, fieldHeight);
             panelPrincipal.add(labelTipoMusica);
@@ -325,17 +360,28 @@ public class CrearEventosPantalla extends JFrame {
             panelPrincipal.add(textMaxPersonas);
             y += spacingY;
 
-        } else if (tipoEvento.equals("RELIGIOSO")) {
+            labelIntegrantes.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textIntegrantes.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelIntegrantes);
+            panelPrincipal.add(textIntegrantes);
+            y += spacingY;
+
+        } else if ("RELIGIOSO".equals(tipoEvento)) {
             labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
             textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
-
+            labelMaxPersonas.setText("Cantidad de pers. (Max. 30,000):");
             panelPrincipal.add(labelMaxPersonas);
             panelPrincipal.add(textMaxPersonas);
-            labelMaxPersonas.setText("Cantidad de pers. (Max. 30,000):");
+            y += spacingY;
+
+            labelPersonasConvertidas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textPersonasConvertidas.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelPersonasConvertidas);
+            panelPrincipal.add(textPersonasConvertidas);
             y += spacingY;
         }
 
-        crearEventoButton.setBounds(startXLabel, y + 10, btnWidth, btnHeight);
+        verEventoButton.setBounds(startXLabel, y + 10, btnWidth, btnHeight);
         cancelarButton.setBounds(startXField, y + 10, btnWidth, btnHeight);
         regresarButton.setBounds((550 - btnWidth) / 2, y + 10 + btnHeight + 10, btnWidth, btnHeight);
 
@@ -343,4 +389,46 @@ public class CrearEventosPantalla extends JFrame {
         panelPrincipal.repaint();
     }
 
+    private void limpiarCampos() {
+        textCodigo.setText("");
+        textTituloEvento.setText("");
+        textDescripcion.setText("");
+        dateChooser.setCalendar(null);
+        textMonto.setText("");
+        textMaxPersonas.setText("");
+        textEquipo1.setText("");
+        textEquipo2.setText("");
+        comboTipoDeporte.setSelectedIndex(0);
+        comboTipoMusica.setSelectedIndex(0);
+        comboTipoEvento.setSelectedIndex(0);
+
+        listaJugEq1.clear();
+        listaJugEq2.clear();
+        listaIntegrantes.clear();
+        listaPersonasConvertidas.clear();
+
+        textJugadoresEq1.setText("");
+        textJugadoresEq2.setText("");
+        textIntegrantes.setText("");
+        textPersonasConvertidas.setText("");
+        textCancelado.setText("");
+    }
+
+    private void desactivarCampos() {
+        textDescripcion.setEnabled(false);
+        textMonto.setEnabled(false);
+        textMaxPersonas.setEnabled(false);
+        comboTipoEvento.setEnabled(false);
+        comboTipoDeporte.setEnabled(false);
+        comboTipoMusica.setEnabled(false);
+        textEquipo1.setEnabled(false);
+        textEquipo2.setEnabled(false);
+        dateChooser.setEnabled(false);
+        textJugadoresEq1.setEnabled(false);
+        textJugadoresEq2.setEnabled(false);
+        textIntegrantes.setEnabled(false);
+        textPersonasConvertidas.setEnabled(false);
+        textTituloEvento.setEnabled(false);
+        textCancelado.setEnabled(false);
+    }
 }

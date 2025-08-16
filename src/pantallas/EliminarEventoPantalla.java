@@ -1,0 +1,493 @@
+package pantallas;
+
+import com.toedter.calendar.JDateChooser;
+import events.EventoDeportivo;
+import events.EventoMusical;
+import events.EventoReligioso;
+import events.Eventos;
+import events.TipoDeporte;
+import events.TipoMusica;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.Calendar;
+import javax.swing.*;
+import login.Gestion;
+
+/**
+ * @author hnleo
+ */
+public class EliminarEventoPantalla extends JFrame {
+
+    private JLabel labelTipoEvento, labelCodigo, labelTituloEvento, labelDescripcion, labelFecha, labelMonto, labelMaxPersonas;
+    private JLabel labelEquipo1, labelEquipo2, labelTipoDeporte, labelTipoMusica;
+    private JTextField textCodigo, textTituloEvento, textDescripcion, textMonto, textMaxPersonas;
+    private JDateChooser dateChooser = new JDateChooser();
+    private JTextField textEquipo1, textEquipo2;
+    private JComboBox<String> comboTipoEvento;
+    private JComboBox<TipoDeporte> comboTipoDeporte;
+    private JComboBox<TipoMusica> comboTipoMusica;
+    private JButton eliminarEventoButton, cancelarButton, regresarButton;
+    private JLabel labelJugadoresEq1, labelJugadoresEq2;
+    private JTextField textJugadoresEq1, textJugadoresEq2;
+    private JLabel labelIntegrantes;
+    private JTextField textIntegrantes;
+    private JLabel labelPersonasConvertidas;
+    private JTextField textPersonasConvertidas;
+
+    private final int labelWidth = 180;
+    private final int labelHeight = 25;
+    private final int fieldWidth = 250;
+    private final int fieldHeight = 25;
+    private final int startXLabel = 30;
+    private final int startXField = 220;
+    private final int startY = 100;
+    private final int spacingY = 40;
+    private final int btnWidth = 120;
+    private final int btnHeight = 30;
+
+    private JPanel panelPrincipal;
+    private Gestion gestion;
+
+    private ArrayList<String> listaJugEq1 = new ArrayList<>();
+    private ArrayList<String> listaJugEq2 = new ArrayList<>();
+    private ArrayList<String> listaIntegrantes = new ArrayList<>();
+    private ArrayList<String> listaPersonasConvertidas = new ArrayList<>();
+
+    public EliminarEventoPantalla() {
+        pantalla();
+        configurarVentana();
+        agregarComponentes();
+
+        gestion = Gestion.getInstancia();
+
+        agregarEventos();
+        ajustarCamposSegunTipo("DEPORTIVO");
+        desactivarCampos();
+
+    }
+
+    private void pantalla() {
+        panelPrincipal = new JPanel();
+        panelPrincipal.setLayout(null);
+        panelPrincipal.setBackground(Color.WHITE);
+
+        JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
+        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 24));
+        labelTitulo.setBounds(0, 20, 550, 40);
+        panelPrincipal.add(labelTitulo);
+
+        JLabel labelSubtitulo = new JLabel("Cancelar Evento", SwingConstants.CENTER);
+        labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 14));
+        labelSubtitulo.setBounds(0, 60, 550, 20);
+        panelPrincipal.add(labelSubtitulo);
+
+        labelTipoEvento = new JLabel("Tipo de Evento:");
+        comboTipoEvento = new JComboBox<>(new String[]{"DEPORTIVO", "MUSICAL", "RELIGIOSO"});
+        labelCodigo = new JLabel("Código:");
+        textCodigo = new JTextField();
+        labelMaxPersonas = new JLabel("Cantidad de Personas:");
+        textMaxPersonas = new JTextField();
+        labelTituloEvento = new JLabel("Título:");
+        textTituloEvento = new JTextField();
+        labelDescripcion = new JLabel("Descripción:");
+        textDescripcion = new JTextField();
+        labelFecha = new JLabel("Fecha (dd/mm/aaaa):");
+        dateChooser = new JDateChooser();
+        labelMonto = new JLabel("Monto de renta (Lps):");
+        textMonto = new JTextField();
+
+        labelEquipo1 = new JLabel("Equipo 1:");
+        textEquipo1 = new JTextField();
+        labelEquipo2 = new JLabel("Equipo 2:");
+        textEquipo2 = new JTextField();
+
+        labelJugadoresEq1 = new JLabel("Jugadores Equipo 1:");
+        textJugadoresEq1 = new JTextField();
+
+        labelJugadoresEq2 = new JLabel("Jugadores Equipo 2:");
+        textJugadoresEq2 = new JTextField();
+
+        labelIntegrantes = new JLabel("Integrantes:");
+        textIntegrantes = new JTextField();
+
+        labelPersonasConvertidas = new JLabel("Personas convertidas:");
+        textPersonasConvertidas = new JTextField();
+
+        labelTipoDeporte = new JLabel("Tipo de Deporte:");
+        comboTipoDeporte = new JComboBox<>(TipoDeporte.values());
+        labelTipoMusica = new JLabel("Tipo de Música:");
+        comboTipoMusica = new JComboBox<>(TipoMusica.values());
+
+        eliminarEventoButton = new JButton("Cancelar Evento");
+        cancelarButton = new JButton("Cancelar");
+        regresarButton = new JButton("Regresar");
+    }
+
+    private void configurarVentana() {
+        this.setSize(550, 720);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setLayout(null);
+        this.setLocationRelativeTo(null);
+        this.setTitle("JAVA EVENTS");
+        this.add(panelPrincipal);
+        panelPrincipal.setBounds(0, 0, 550, 720);
+    }
+
+    private void agregarComponentes() {
+        int y = startY;
+
+        labelTipoEvento.setBounds(startXLabel, y, labelWidth, labelHeight);
+        comboTipoEvento.setBounds(startXField, y, fieldWidth, fieldHeight);
+        panelPrincipal.add(labelTipoEvento);
+        panelPrincipal.add(comboTipoEvento);
+
+        y += spacingY;
+        labelCodigo.setBounds(startXLabel, y, labelWidth, labelHeight);
+        textCodigo.setBounds(startXField, y, fieldWidth, fieldHeight);
+        panelPrincipal.add(labelCodigo);
+        panelPrincipal.add(textCodigo);
+
+        y += spacingY;
+        labelTituloEvento.setBounds(startXLabel, y, labelWidth, labelHeight);
+        textTituloEvento.setBounds(startXField, y, fieldWidth, fieldHeight);
+        panelPrincipal.add(labelTituloEvento);
+        panelPrincipal.add(textTituloEvento);
+
+        y += spacingY;
+        labelDescripcion.setBounds(startXLabel, y, labelWidth, labelHeight);
+        textDescripcion.setBounds(startXField, y, fieldWidth, fieldHeight);
+        panelPrincipal.add(labelDescripcion);
+        panelPrincipal.add(textDescripcion);
+
+        y += spacingY;
+        labelFecha.setBounds(startXLabel, y, labelWidth, labelHeight);
+        dateChooser.setBounds(startXField, y, fieldWidth, fieldHeight);
+        panelPrincipal.add(labelFecha);
+        panelPrincipal.add(dateChooser);
+
+        y += spacingY;
+        labelMonto.setBounds(startXLabel, y, labelWidth, labelHeight);
+        textMonto.setBounds(startXField, y, fieldWidth, fieldHeight);
+        panelPrincipal.add(labelMonto);
+        panelPrincipal.add(textMonto);
+
+        eliminarEventoButton.setBounds(startXLabel, y + 6 * spacingY, btnWidth, btnHeight);
+        cancelarButton.setBounds(startXField, y + 6 * spacingY, btnWidth, btnHeight);
+        regresarButton.setBounds((550 - btnWidth) / 2, y + 6 * spacingY + btnHeight + 10, btnWidth, btnHeight);
+        panelPrincipal.add(eliminarEventoButton);
+        panelPrincipal.add(cancelarButton);
+        panelPrincipal.add(regresarButton);
+    }
+
+    private void agregarEventos() {
+        comboTipoEvento.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                String seleccion = (String) comboTipoEvento.getSelectedItem();
+                ajustarCamposSegunTipo(seleccion);
+            }
+        });
+
+        regresarButton.addActionListener(e -> {
+            try {
+                new GestionEventosPantalla().setVisible(true);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Regresando al menú principal...");
+            }
+            this.dispose();
+        });
+
+        textCodigo.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                String texto = textCodigo.getText().trim();
+                if (texto.isEmpty()) {
+                    return;
+                }
+                int codigo;
+                try {
+                    codigo = Integer.parseInt(texto);
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "El código debe ser numérico.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    textCodigo.requestFocus();
+                    return;
+                }
+
+                try {
+                    if (gestion.usuarioActual == null || !gestion.usuarioActual.getEventos().contains(codigo)) {
+                        JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "Este evento no pertenece a tu cuenta.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
+                } catch (Exception ex) {
+
+                    JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "Error: No hay usuario logueado.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                Eventos evento = gestion.buscarEventos(codigo, 0);
+                if (evento == null) {
+                    JOptionPane.showMessageDialog(EliminarEventoPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    crearDeshabilitado();
+                    textCodigo.setText("");
+                    textCodigo.requestFocus();
+                    return;
+                }
+
+                textTituloEvento.setText(evento.getTituloEvento());
+                textDescripcion.setText(evento.getDescripcionEvento());
+                dateChooser.setCalendar(evento.getFechaARealizar());
+                textMonto.setText(String.valueOf(evento.getMontoRenta()));
+                textMaxPersonas.setText(String.valueOf(evento.getCantidadPersonas()));
+
+                listaJugEq1.clear();
+                listaJugEq2.clear();
+                listaIntegrantes.clear();
+                listaPersonasConvertidas.clear();
+
+                if (evento instanceof EventoDeportivo) {
+                    comboTipoEvento.setSelectedItem("DEPORTIVO");
+                    ajustarCamposSegunTipo("DEPORTIVO");
+                    EventoDeportivo dep = (EventoDeportivo) evento;
+                    textEquipo1.setText(dep.getNombreEquipo1());
+                    textEquipo2.setText(dep.getNombreEquipo2());
+
+                    if (dep.getListaJugadoresEquipo1() != null) {
+                        listaJugEq1.addAll(dep.getListaJugadoresEquipo1());
+                        textJugadoresEq1.setText(String.join(", ", listaJugEq1));
+                    } else {
+                        textJugadoresEq1.setText("");
+                    }
+
+                    if (dep.getListaJugadoresEquipo2() != null) {
+                        listaJugEq2.addAll(dep.getListaJugadoresEquipo2());
+                        textJugadoresEq2.setText(String.join(", ", listaJugEq2));
+                    } else {
+                        textJugadoresEq2.setText("");
+                    }
+
+                    try {
+                        comboTipoDeporte.setSelectedItem(TipoDeporte.valueOf(String.valueOf(dep.getTipoDeporte()).toUpperCase()));
+                    } catch (Exception ex) {
+                    }
+
+                } else if (evento instanceof EventoMusical) {
+                    comboTipoEvento.setSelectedItem("MUSICAL");
+                    ajustarCamposSegunTipo("MUSICAL");
+                    EventoMusical mus = (EventoMusical) evento;
+                    try {
+                        comboTipoMusica.setSelectedItem(TipoMusica.valueOf(String.valueOf(mus.getTipoMusica()).toUpperCase()));
+                    } catch (Exception ex) {
+                    }
+
+                    try {
+                        if (mus.getIntegrantes() != null) {
+                            listaIntegrantes.addAll(mus.getIntegrantes());
+                            textIntegrantes.setText(String.join(", ", listaIntegrantes));
+                        } else {
+                            textIntegrantes.setText("");
+                        }
+                    } catch (Exception ex) {
+                        textIntegrantes.setText("");
+                    }
+
+                } else if (evento instanceof EventoReligioso) {
+                    comboTipoEvento.setSelectedItem("RELIGIOSO");
+                    ajustarCamposSegunTipo("RELIGIOSO");
+
+                    EventoReligioso rel = (EventoReligioso) evento;
+                    try {
+                        if (rel.getPersonasConvertidas() != null) {
+                            listaPersonasConvertidas.addAll(rel.getPersonasConvertidas());
+                            textPersonasConvertidas.setText(String.join(", ", listaPersonasConvertidas));
+                        } else {
+                            textPersonasConvertidas.setText("");
+                        }
+                    } catch (Exception ex) {
+                        textPersonasConvertidas.setText("");
+                    }
+                }
+
+                textCodigo.setEnabled(false);
+                crearHabilitado();
+            }
+        });
+        
+        eliminarEventoButton.addActionListener(e->{
+         String texto = textCodigo.getText().trim();
+         if(texto.isEmpty()){
+                 JOptionPane.showMessageDialog(this,"Vacío", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                 return;
+                 }
+         int codigoEvento = Integer.parseInt(texto);
+         Calendar fecha = dateChooser.getCalendar();
+         JOptionPane.showMessageDialog(this, gestion.eliminarEvento(codigoEvento, fecha), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+         
+        });
+        
+        cancelarButton.addActionListener(e -> {
+            limpiarCampos();
+            textCodigo.setEnabled(true);
+            crearHabilitado();
+        });
+
+    }
+
+    private void crearDeshabilitado() {
+        eliminarEventoButton.setEnabled(false);
+    }
+
+    private void crearHabilitado() {
+        eliminarEventoButton.setEnabled(true);
+    }
+
+    private void ajustarCamposSegunTipo(String tipoEvento) {
+        panelPrincipal.remove(labelEquipo1);
+        panelPrincipal.remove(textEquipo1);
+        panelPrincipal.remove(labelEquipo2);
+        panelPrincipal.remove(textEquipo2);
+        panelPrincipal.remove(labelTipoDeporte);
+        panelPrincipal.remove(comboTipoDeporte);
+        panelPrincipal.remove(labelTipoMusica);
+        panelPrincipal.remove(comboTipoMusica);
+        panelPrincipal.remove(labelMaxPersonas);
+        panelPrincipal.remove(textMaxPersonas);
+
+        panelPrincipal.remove(labelJugadoresEq1);
+        panelPrincipal.remove(textJugadoresEq1);
+
+        panelPrincipal.remove(labelJugadoresEq2);
+        panelPrincipal.remove(textJugadoresEq2);
+
+        panelPrincipal.remove(labelIntegrantes);
+        panelPrincipal.remove(textIntegrantes);
+
+        panelPrincipal.remove(labelPersonasConvertidas);
+        panelPrincipal.remove(textPersonasConvertidas);
+
+        int y = startY + 6 * spacingY;
+
+        if ("DEPORTIVO".equals(tipoEvento)) {
+            labelEquipo1.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textEquipo1.setBounds(startXField, y, fieldWidth, fieldHeight);
+            panelPrincipal.add(labelEquipo1);
+            panelPrincipal.add(textEquipo1);
+            y += spacingY;
+
+            labelEquipo2.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textEquipo2.setBounds(startXField, y, fieldWidth, fieldHeight);
+            panelPrincipal.add(labelEquipo2);
+            panelPrincipal.add(textEquipo2);
+            y += spacingY;
+
+            labelJugadoresEq1.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textJugadoresEq1.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelJugadoresEq1);
+            panelPrincipal.add(textJugadoresEq1);
+            y += spacingY;
+
+            labelJugadoresEq2.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textJugadoresEq2.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelJugadoresEq2);
+            panelPrincipal.add(textJugadoresEq2);
+            y += spacingY;
+
+            labelTipoDeporte.setBounds(startXLabel, y, labelWidth, labelHeight);
+            comboTipoDeporte.setBounds(startXField, y, fieldWidth, fieldHeight);
+            panelPrincipal.add(labelTipoDeporte);
+            panelPrincipal.add(comboTipoDeporte);
+            y += spacingY;
+
+            labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
+            labelMaxPersonas.setText("Cantidad de pers. (Max. 20,000):");
+            panelPrincipal.add(labelMaxPersonas);
+            panelPrincipal.add(textMaxPersonas);
+            y += spacingY;
+
+        } else if ("MUSICAL".equals(tipoEvento)) {
+            labelTipoMusica.setBounds(startXLabel, y, labelWidth, labelHeight);
+            comboTipoMusica.setBounds(startXField, y, fieldWidth, fieldHeight);
+            panelPrincipal.add(labelTipoMusica);
+            panelPrincipal.add(comboTipoMusica);
+            y += spacingY;
+
+            labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
+            labelMaxPersonas.setText("Cantidad de pers. (Max. 25,000):");
+            panelPrincipal.add(labelMaxPersonas);
+            panelPrincipal.add(textMaxPersonas);
+            y += spacingY;
+
+            labelIntegrantes.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textIntegrantes.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelIntegrantes);
+            panelPrincipal.add(textIntegrantes);
+            y += spacingY;
+
+        } else if ("RELIGIOSO".equals(tipoEvento)) {
+            labelMaxPersonas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textMaxPersonas.setBounds(startXField, y, fieldWidth, fieldHeight);
+            labelMaxPersonas.setText("Cantidad de pers. (Max. 30,000):");
+            panelPrincipal.add(labelMaxPersonas);
+            panelPrincipal.add(textMaxPersonas);
+            y += spacingY;
+
+            labelPersonasConvertidas.setBounds(startXLabel, y, labelWidth, labelHeight);
+            textPersonasConvertidas.setBounds(startXField, y, fieldWidth - 100, fieldHeight);
+            panelPrincipal.add(labelPersonasConvertidas);
+            panelPrincipal.add(textPersonasConvertidas);
+            y += spacingY;
+        }
+
+        eliminarEventoButton.setBounds(startXLabel, y + 10, btnWidth, btnHeight);
+        cancelarButton.setBounds(startXField, y + 10, btnWidth, btnHeight);
+        regresarButton.setBounds((550 - btnWidth) / 2, y + 10 + btnHeight + 10, btnWidth, btnHeight);
+
+        panelPrincipal.revalidate();
+        panelPrincipal.repaint();
+    }
+
+    private void limpiarCampos() {
+        textCodigo.setText("");
+        textTituloEvento.setText("");
+        textDescripcion.setText("");
+        dateChooser.setCalendar(null);
+        textMonto.setText("");
+        textMaxPersonas.setText("");
+        textEquipo1.setText("");
+        textEquipo2.setText("");
+        comboTipoDeporte.setSelectedIndex(0);
+        comboTipoMusica.setSelectedIndex(0);
+        comboTipoEvento.setSelectedIndex(0);
+
+        listaJugEq1.clear();
+        listaJugEq2.clear();
+        listaIntegrantes.clear();
+        listaPersonasConvertidas.clear();
+
+        textJugadoresEq1.setText("");
+        textJugadoresEq2.setText("");
+        textIntegrantes.setText("");
+        textPersonasConvertidas.setText("");
+    }
+
+    private void desactivarCampos() {
+        textDescripcion.setEnabled(false);
+        textMonto.setEnabled(false);
+        textMaxPersonas.setEnabled(false);
+        comboTipoEvento.setEnabled(false);
+        comboTipoDeporte.setEnabled(false);
+        comboTipoMusica.setEnabled(false);
+        textEquipo1.setEnabled(false);
+        textEquipo2.setEnabled(false);
+        dateChooser.setEnabled(false);
+        textJugadoresEq1.setEnabled(false);
+        textJugadoresEq2.setEnabled(false);
+        textIntegrantes.setEnabled(false);
+        textPersonasConvertidas.setEnabled(false);
+        eliminarEventoButton.setEnabled(false);
+    }
+}
