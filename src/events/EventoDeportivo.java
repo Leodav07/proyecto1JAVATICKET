@@ -31,7 +31,7 @@ public class EventoDeportivo extends Eventos {
     }
 
     @Override
-    String getTipoEvento() {
+    public String getTipoEvento() {
         return "DEPORTIVO";
     }
 

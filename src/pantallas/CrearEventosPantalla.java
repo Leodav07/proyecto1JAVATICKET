@@ -244,11 +244,15 @@ public class CrearEventosPantalla extends JFrame {
                     }
                 }
                 JOptionPane.showMessageDialog(this, gestion.crearEvento(codigoEvento, textTituloEvento.getText(), textDescripcion.getText(), dateChooser.getCalendar(), montoRenta, comboTipoEvento.getSelectedItem().toString(), textEquipo1.getText(), textEquipo2.getText(), comboTipoDeporte.getSelectedItem().toString(), comboTipoMusica.getSelectedItem().toString(), cantidadPersonas), "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                limpiarCampos();
-                textCodigo.requestFocus();
+              
             } catch (Exception i) {
                 JOptionPane.showMessageDialog(this, "Ocurrio un error: Textos de numeros no convertidos a String." + i.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+        });
+        
+        cancelarButton.addActionListener(e->{
+           limpiarCampos();
+           textCodigo.requestFocus();
         });
 
     }

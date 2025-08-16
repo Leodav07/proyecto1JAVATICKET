@@ -21,7 +21,7 @@ public class EventoReligioso extends Eventos {
     }
 
     @Override
-    String getTipoEvento() {
+    public String getTipoEvento() {
         return "RELIGIOSO";
     }
     @Override

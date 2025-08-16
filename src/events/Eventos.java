@@ -96,7 +96,7 @@ public abstract class Eventos {
     }
     
     
-    abstract String getTipoEvento();
+    public abstract String getTipoEvento();
     
     
 }

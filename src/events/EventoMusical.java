@@ -20,7 +20,7 @@ public class EventoMusical extends Eventos {
     }
 
     @Override
-    String getTipoEvento() {
+    public String getTipoEvento() {
         return "MUSICAL";
     }
 
