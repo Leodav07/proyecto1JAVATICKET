@@ -13,7 +13,6 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
-import java.util.Calendar;
 import javax.swing.*;
 import login.Gestion;
 
@@ -49,7 +48,7 @@ public class VerEventoPantalla extends JFrame {
     private final int startY = 100;
     private final int spacingY = 40;
     private final int btnWidth = 120;
-    private final int btnHeight = 30;
+    private final int btnHeight = 35;
 
     private JPanel panelPrincipal;
     private Gestion gestion;
@@ -69,7 +68,6 @@ public class VerEventoPantalla extends JFrame {
         agregarEventos();
         ajustarCamposSegunTipo("DEPORTIVO");
         desactivarCampos();
-
     }
 
     private void pantalla() {
@@ -78,15 +76,18 @@ public class VerEventoPantalla extends JFrame {
         panelPrincipal.setBackground(Color.WHITE);
 
         JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 24));
+        labelTitulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        labelTitulo.setForeground(new Color(33, 33, 33));
         labelTitulo.setBounds(0, 20, 550, 40);
         panelPrincipal.add(labelTitulo);
 
         JLabel labelSubtitulo = new JLabel("Cancelar Evento", SwingConstants.CENTER);
-        labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 14));
-        labelSubtitulo.setBounds(0, 60, 550, 20);
+        labelSubtitulo.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        labelSubtitulo.setForeground(new Color(100, 100, 100));
+        labelSubtitulo.setBounds(0, 65, 550, 25);
         panelPrincipal.add(labelSubtitulo);
 
+        // Inicialización de labels y campos
         labelTipoEvento = new JLabel("Tipo de Evento:");
         comboTipoEvento = new JComboBox<>(new String[]{"DEPORTIVO", "MUSICAL", "RELIGIOSO"});
         labelCodigo = new JLabel("Código:");
@@ -111,13 +112,11 @@ public class VerEventoPantalla extends JFrame {
 
         labelJugadoresEq1 = new JLabel("Jugadores Equipo 1:");
         textJugadoresEq1 = new JTextField();
-
         labelJugadoresEq2 = new JLabel("Jugadores Equipo 2:");
         textJugadoresEq2 = new JTextField();
 
         labelIntegrantes = new JLabel("Integrantes:");
         textIntegrantes = new JTextField();
-
         labelPersonasConvertidas = new JLabel("Personas convertidas:");
         textPersonasConvertidas = new JTextField();
 
@@ -129,16 +128,54 @@ public class VerEventoPantalla extends JFrame {
         verEventoButton = new JButton("Ver Evento");
         cancelarButton = new JButton("Cancelar");
         regresarButton = new JButton("Regresar");
+
+        JLabel[] labels = {labelTipoEvento, labelCodigo, labelTituloEvento, labelDescripcion, labelFecha,
+            labelMonto, labelMaxPersonas, labelEquipo1, labelEquipo2, labelTipoDeporte, labelTipoMusica,
+            labelJugadoresEq1, labelJugadoresEq2, labelIntegrantes, labelPersonasConvertidas, labelCancelado};
+        JTextField[] campos = {textCodigo, textTituloEvento, textDescripcion, textMonto, textMaxPersonas,
+            textEquipo1, textEquipo2, textJugadoresEq1, textJugadoresEq2, textIntegrantes,
+            textPersonasConvertidas, textCancelado};
+        JComboBox[] combos = {comboTipoEvento, comboTipoDeporte, comboTipoMusica};
+
+        for (JLabel lbl : labels) {
+            lbl.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            lbl.setForeground(new Color(50, 50, 50));
+        }
+        for (JTextField txt : campos) {
+            txt.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        }
+        for (JComboBox cmb : combos) {
+            cmb.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        }
+
+        verEventoButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        verEventoButton.setBackground(new Color(76, 175, 80));
+        verEventoButton.setForeground(Color.WHITE);
+        verEventoButton.setFocusPainted(false);
+        verEventoButton.setBorderPainted(false);
+
+        cancelarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        cancelarButton.setBackground(new Color(244, 67, 54));
+        cancelarButton.setForeground(Color.WHITE);
+        cancelarButton.setFocusPainted(false);
+        cancelarButton.setBorderPainted(false);
+
+        regresarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        regresarButton.setBackground(new Color(33, 150, 243));
+        regresarButton.setForeground(Color.WHITE);
+        regresarButton.setFocusPainted(false);
+        regresarButton.setBorderPainted(false);
     }
 
     private void configurarVentana() {
-        this.setSize(550, 720);
+        this.setSize(550, 800);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setTitle("JAVA EVENTS");
-        this.add(panelPrincipal);
-        panelPrincipal.setBounds(0, 0, 550, 720);
+        JScrollPane scrollPane = new JScrollPane(panelPrincipal);
+        scrollPane.setBounds(0, 0, 550, 800);
+        this.add(scrollPane);
     }
 
     private void agregarComponentes() {
@@ -188,6 +225,7 @@ public class VerEventoPantalla extends JFrame {
         verEventoButton.setBounds(startXLabel, y + 6 * spacingY, btnWidth, btnHeight);
         cancelarButton.setBounds(startXField, y + 6 * spacingY, btnWidth, btnHeight);
         regresarButton.setBounds((550 - btnWidth) / 2, y + 6 * spacingY + btnHeight + 10, btnWidth, btnHeight);
+        
         panelPrincipal.add(verEventoButton);
         panelPrincipal.add(cancelarButton);
         panelPrincipal.add(regresarButton);
@@ -211,19 +249,19 @@ public class VerEventoPantalla extends JFrame {
             if (texto.isEmpty()) {
                 return;
             }
+
             int codigo;
             try {
                 codigo = Integer.parseInt(texto);
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(VerEventoPantalla.this, "El código debe ser numérico.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "El código debe ser numérico.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 textCodigo.requestFocus();
                 return;
             }
 
             Eventos evento = gestion.buscarEventos(codigo, 0);
             if (evento == null) {
-                JOptionPane.showMessageDialog(VerEventoPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-
+                JOptionPane.showMessageDialog(this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 textCodigo.setText("");
                 textCodigo.requestFocus();
                 return;
@@ -245,7 +283,6 @@ public class VerEventoPantalla extends JFrame {
                 try {
                     comboTipoDeporte.setSelectedItem(TipoDeporte.valueOf(String.valueOf(dep.getTipoDeporte()).toUpperCase()));
                 } catch (Exception ex) {
-
                 }
             } else if (evento instanceof EventoMusical) {
                 comboTipoEvento.setSelectedItem("MUSICAL");
@@ -254,7 +291,6 @@ public class VerEventoPantalla extends JFrame {
                 try {
                     comboTipoMusica.setSelectedItem(TipoMusica.valueOf(String.valueOf(mus.getTipoMusica()).toUpperCase()));
                 } catch (Exception ex) {
-
                 }
             } else if (evento instanceof EventoReligioso) {
                 comboTipoEvento.setSelectedItem("RELIGIOSO");
@@ -262,16 +298,13 @@ public class VerEventoPantalla extends JFrame {
             }
 
             textCodigo.setEnabled(false);
-
-        }
-        );
+        });
 
         cancelarButton.addActionListener(e -> {
             limpiarCampos();
             textCodigo.setEnabled(true);
             crearHabilitado();
         });
-
     }
 
     private void crearDeshabilitado() {
@@ -283,6 +316,7 @@ public class VerEventoPantalla extends JFrame {
     }
 
     private void ajustarCamposSegunTipo(String tipoEvento) {
+        // Remover campos dinámicos
         panelPrincipal.remove(labelEquipo1);
         panelPrincipal.remove(textEquipo1);
         panelPrincipal.remove(labelEquipo2);
@@ -293,16 +327,12 @@ public class VerEventoPantalla extends JFrame {
         panelPrincipal.remove(comboTipoMusica);
         panelPrincipal.remove(labelMaxPersonas);
         panelPrincipal.remove(textMaxPersonas);
-
         panelPrincipal.remove(labelJugadoresEq1);
         panelPrincipal.remove(textJugadoresEq1);
-
         panelPrincipal.remove(labelJugadoresEq2);
         panelPrincipal.remove(textJugadoresEq2);
-
         panelPrincipal.remove(labelIntegrantes);
         panelPrincipal.remove(textIntegrantes);
-
         panelPrincipal.remove(labelPersonasConvertidas);
         panelPrincipal.remove(textPersonasConvertidas);
 
@@ -381,9 +411,10 @@ public class VerEventoPantalla extends JFrame {
             y += spacingY;
         }
 
-        verEventoButton.setBounds(startXLabel, y + 10, btnWidth, btnHeight);
-        cancelarButton.setBounds(startXField, y + 10, btnWidth, btnHeight);
-        regresarButton.setBounds((550 - btnWidth) / 2, y + 10 + btnHeight + 10, btnWidth, btnHeight);
+        int yBotones = y + 10;
+        verEventoButton.setBounds(startXLabel, yBotones, btnWidth, btnHeight);
+        cancelarButton.setBounds(startXField, yBotones, btnWidth, btnHeight);
+        regresarButton.setBounds((550-btnWidth)/2, yBotones+btnHeight+10, btnWidth, btnHeight);
 
         panelPrincipal.revalidate();
         panelPrincipal.repaint();

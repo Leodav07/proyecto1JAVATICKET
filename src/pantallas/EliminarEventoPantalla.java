@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package pantallas;
 
 import com.toedter.calendar.JDateChooser;
@@ -18,6 +22,7 @@ import javax.swing.*;
 import login.Gestion;
 
 /**
+ *
  * @author hnleo
  */
 public class EliminarEventoPantalla extends JFrame {
@@ -47,7 +52,7 @@ public class EliminarEventoPantalla extends JFrame {
     private final int startY = 100;
     private final int spacingY = 40;
     private final int btnWidth = 120;
-    private final int btnHeight = 30;
+    private final int btnHeight = 35;
 
     private JPanel panelPrincipal;
     private Gestion gestion;
@@ -67,7 +72,6 @@ public class EliminarEventoPantalla extends JFrame {
         agregarEventos();
         ajustarCamposSegunTipo("DEPORTIVO");
         desactivarCampos();
-
     }
 
     private void pantalla() {
@@ -76,13 +80,15 @@ public class EliminarEventoPantalla extends JFrame {
         panelPrincipal.setBackground(Color.WHITE);
 
         JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 24));
+        labelTitulo.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        labelTitulo.setForeground(new Color(33, 33, 33));
         labelTitulo.setBounds(0, 20, 550, 40);
         panelPrincipal.add(labelTitulo);
 
         JLabel labelSubtitulo = new JLabel("Cancelar Evento", SwingConstants.CENTER);
-        labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 14));
-        labelSubtitulo.setBounds(0, 60, 550, 20);
+        labelSubtitulo.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        labelSubtitulo.setForeground(new Color(100, 100, 100));
+        labelSubtitulo.setBounds(0, 65, 550, 25);
         panelPrincipal.add(labelSubtitulo);
 
         labelTipoEvento = new JLabel("Tipo de Evento:");
@@ -125,16 +131,56 @@ public class EliminarEventoPantalla extends JFrame {
         eliminarEventoButton = new JButton("Cancelar Evento");
         cancelarButton = new JButton("Cancelar");
         regresarButton = new JButton("Regresar");
+
+        // Aplicar estilos consistentes con CrearEventosPantalla
+        JLabel[] labels = {labelTipoEvento, labelCodigo, labelTituloEvento, labelDescripcion, labelFecha,
+                labelMonto, labelMaxPersonas, labelEquipo1, labelEquipo2, labelTipoDeporte, labelTipoMusica,
+                labelJugadoresEq1, labelJugadoresEq2, labelIntegrantes, labelPersonasConvertidas};
+        JTextField[] campos = {textCodigo, textTituloEvento, textDescripcion, textMonto, textMaxPersonas,
+                textEquipo1, textEquipo2, textJugadoresEq1, textJugadoresEq2, textIntegrantes, textPersonasConvertidas};
+        JComboBox[] combos = {comboTipoEvento, comboTipoDeporte, comboTipoMusica};
+
+        for (JLabel lbl : labels) {
+            lbl.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            lbl.setForeground(new Color(50, 50, 50));
+        }
+        for (JTextField txt : campos) {
+            txt.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        }
+        for (JComboBox cmb : combos) {
+            cmb.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        }
+
+        // Botón principal "Cancelar Evento" - Color rojo más intenso para acción destructiva
+        eliminarEventoButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        eliminarEventoButton.setBackground(new Color(211, 47, 47));
+        eliminarEventoButton.setForeground(Color.WHITE);
+        eliminarEventoButton.setFocusPainted(false);
+        eliminarEventoButton.setBorderPainted(false);
+
+        // Botón "Cancelar"
+        cancelarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        cancelarButton.setBackground(new Color(158, 158, 158));
+        cancelarButton.setForeground(Color.WHITE);
+        cancelarButton.setFocusPainted(false);
+        cancelarButton.setBorderPainted(false);
+
+        // Botón "Regresar"
+        regresarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        regresarButton.setBackground(new Color(33, 150, 243));
+        regresarButton.setForeground(Color.WHITE);
+        regresarButton.setFocusPainted(false);
+        regresarButton.setBorderPainted(false);
     }
 
     private void configurarVentana() {
-        this.setSize(550, 720);
+        this.setSize(550, 800);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setLayout(null);
         this.setLocationRelativeTo(null);
         this.setTitle("JAVA EVENTS");
         this.add(panelPrincipal);
-        panelPrincipal.setBounds(0, 0, 550, 720);
+        panelPrincipal.setBounds(0, 0, 550, 800);
     }
 
     private void agregarComponentes() {

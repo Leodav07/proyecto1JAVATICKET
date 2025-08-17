@@ -4,21 +4,9 @@
  */
 package pantallas;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import java.awt.*;
+import javax.swing.*;
 import login.Gestion;
-
 /**
  *
  * @author hnleo
@@ -29,8 +17,38 @@ public class GestionReportesPantalla extends JFrame {
     private Gestion gestion;
 
     public GestionReportesPantalla() {
-    gestion = Gestion.getInstancia();
-    pantalla();
+        gestion = Gestion.getInstancia();
+        pantalla();
+    }
+
+    private JButton crearBoton(String texto, Color color) {
+        JButton boton = new JButton(texto);
+        boton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+        boton.setFocusPainted(false);
+        boton.setBorder(BorderFactory.createEmptyBorder());
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.setOpaque(true);
+        boton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        boton.setMaximumSize(new Dimension(250, 40));
+        return boton;
+    }
+
+    private JLabel crearTitulo(String texto, int size) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setFont(new Font("Segoe UI", Font.BOLD, size));
+        label.setForeground(new Color(33, 33, 33));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return label;
+    }
+
+    private JLabel crearSubtitulo(String texto, int size) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, size));
+        label.setForeground(new Color(100, 100, 100));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        return label;
     }
 
     private void pantalla() {
@@ -41,16 +59,11 @@ public class GestionReportesPantalla extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel panelSuperior = new JPanel();
+        panelSuperior.setBackground(new Color(245, 245, 245));
         panelSuperior.setLayout(new BoxLayout(panelSuperior, BoxLayout.Y_AXIS));
-        panelSuperior.setBackground(Color.WHITE);
 
-        JLabel titulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 28));
-        titulo.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel subtitulo = new JLabel("Reportes de Eventos", SwingConstants.CENTER);
-        subtitulo.setFont(new Font("Arial", Font.PLAIN, 20));
-        subtitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        JLabel titulo = crearTitulo("JAVA EVENTS", 28);
+        JLabel subtitulo = crearSubtitulo("Reportes de Eventos", 18);
 
         panelSuperior.add(Box.createVerticalStrut(20));
         panelSuperior.add(titulo);
@@ -60,14 +73,14 @@ public class GestionReportesPantalla extends JFrame {
 
         JPanel panelBotones = new JPanel();
         panelBotones.setLayout(new BoxLayout(panelBotones, BoxLayout.Y_AXIS));
-        panelBotones.setBackground(Color.WHITE);
+        panelBotones.setBackground(new Color(245, 245, 245));
 
-        btnEventosRealizados = new JButton("Eventos realizados");
-        btnEventosFuturos = new JButton("Eventos futuros");
-        btnEventosCancelados = new JButton("Eventos cancelados");
-        btnIngresos = new JButton("Ingresos generados (Fecha)");
-        btnVerPerfil = new JButton("Ver perfil");
-        btnRegresar = new JButton("Regresar");
+        btnEventosRealizados = crearBoton("Eventos realizados", new Color(0, 123, 255));
+        btnEventosFuturos = crearBoton("Eventos futuros", new Color(0, 123, 255));
+        btnEventosCancelados = crearBoton("Eventos cancelados", new Color(0, 123, 255));
+        btnIngresos = crearBoton("Ingresos generados (Fecha)", new Color(0, 123, 255));
+        btnVerPerfil = crearBoton("Ver perfil", new Color(0, 123, 255));
+        btnRegresar = crearBoton("Regresar", new Color(220, 53, 69));
 
         JButton[] botones = {
             btnEventosRealizados, btnEventosFuturos, btnEventosCancelados,
@@ -75,8 +88,6 @@ public class GestionReportesPantalla extends JFrame {
         };
 
         for (JButton boton : botones) {
-            boton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            boton.setMaximumSize(new Dimension(250, 40));
             panelBotones.add(boton);
             panelBotones.add(Box.createVerticalStrut(15));
         }
@@ -85,8 +96,8 @@ public class GestionReportesPantalla extends JFrame {
         add(panelBotones, BorderLayout.CENTER);
 
         btnEventosRealizados.addActionListener(e -> {
-        new EventosRealizadosPantalla().setVisible(true);
-        this.dispose();
+            new EventosRealizadosPantalla().setVisible(true);
+            this.dispose();
         });
 
         btnEventosFuturos.addActionListener(e -> {
@@ -114,6 +125,4 @@ public class GestionReportesPantalla extends JFrame {
             this.dispose();
         });
     }
-
-  
 }

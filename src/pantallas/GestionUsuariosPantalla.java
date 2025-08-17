@@ -4,97 +4,105 @@
  */
 package pantallas;
 
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import java.awt.*;
+import javax.swing.*;
 import login.Gestion;
-
 /**
  *
  * @author hnleo
  */
 public class GestionUsuariosPantalla extends JFrame {
     private Gestion gestion;
-    
-    public GestionUsuariosPantalla(){
+
+    public GestionUsuariosPantalla() {
         gestion = Gestion.getInstancia();
         pantalla();
     }
-    
+
+    private void aplicarEstiloPanel(JPanel panel) {
+        panel.setBackground(new Color(245, 245, 245));
+        panel.setLayout(null);
+    }
+
+    private JButton crearBoton(String texto, int x, int y, int width, int height, Color color) {
+        JButton boton = new JButton(texto);
+        boton.setBounds(x, y, width, height);
+        boton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+        boton.setFocusPainted(false);
+        boton.setBorder(BorderFactory.createEmptyBorder());
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.setOpaque(true);
+        boton.setUI(new javax.swing.plaf.basic.BasicButtonUI()); 
+        return boton;
+    }
+
+    private JLabel crearTitulo(String texto, int y) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setBounds(0, y, 800, 50);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        label.setForeground(new Color(33, 33, 33));
+        return label;
+    }
+
+    private JLabel crearSubtitulo(String texto, int y) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setBounds(0, y, 800, 25);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        label.setForeground(new Color(100, 100, 100));
+        return label;
+    }
+
     private void pantalla() {
-    JPanel panelPrincipal = new JPanel();
-    JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-    JLabel labelSubtitulo = new JLabel("Administración de Usuarios.", SwingConstants.CENTER);
-    JButton crearUsuarioButton = new JButton("Crear Usuarios");
-    JButton editarUsuarioButton = new JButton("Editar Usuarios");
-    JButton eliminarUsuarioButton = new JButton("Eliminar Usuarios");
-    JButton regresarButton = new JButton("Regresar");
+        JPanel panelPrincipal = new JPanel();
+        aplicarEstiloPanel(panelPrincipal);
 
-    this.setSize(800, 600);
-    this.setVisible(true);
-    this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    this.setLayout(null);
-    this.setLocationRelativeTo(null);
-    this.setTitle("JAVA EVENTS");
+        JLabel labelTitulo = crearTitulo("JAVA EVENTS", 40);
+        JLabel labelSubtitulo = crearSubtitulo("Administración de Usuarios.", 100);
 
-    panelPrincipal.setBounds(0, 0, 800, 600);
-    panelPrincipal.setBackground(Color.WHITE);
-    panelPrincipal.setLayout(null);
+        int btnWidth = 220;
+        int btnHeight = 40;
+        int centerX = (800 - btnWidth) / 2;
+        int startY = 180;
+        int spacing = 15;
 
-    labelTitulo.setBounds(0, 40, 800, 50);
-    labelTitulo.setFont(new Font("Verdana", Font.BOLD, 28));
-    labelTitulo.setForeground(Color.BLACK);
+        JButton crearUsuarioButton = crearBoton("Crear Usuarios", centerX, startY, btnWidth, btnHeight, new Color(0, 123, 255));
+        crearUsuarioButton.addActionListener(e -> {
+            new AgregarUsuariosPantalla().setVisible(true);
+            this.dispose();
+        });
 
-   
-    labelSubtitulo.setBounds(0, 90, 800, 25);
-    labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 16));
-    labelSubtitulo.setForeground(Color.BLACK);
+        JButton editarUsuarioButton = crearBoton("Editar Usuarios", centerX, startY + (btnHeight + spacing), btnWidth, btnHeight, new Color(0, 123, 255));
+        editarUsuarioButton.addActionListener(e -> {
+            new EditarUsuariosPantalla().setVisible(true);
+            this.dispose();
+        });
 
-    
-    int btnWidth = 220;
-    int btnHeight = 40;
-    int centerX = (800 - btnWidth) / 2;
-    int startY = 180;
-    int spacing = 15;
+        JButton eliminarUsuarioButton = crearBoton("Eliminar Usuarios", centerX, startY + 2 * (btnHeight + spacing), btnWidth, btnHeight, new Color(0, 123, 255));
+        eliminarUsuarioButton.addActionListener(e -> {
+            new BorrarUsuariosPantalla().setVisible(true);
+            this.dispose();
+        });
 
-    crearUsuarioButton.setBounds(centerX, startY, btnWidth, btnHeight);
-    crearUsuarioButton.setFont(new Font("Verdana", Font.BOLD, 14));
-    crearUsuarioButton.addActionListener(e->{
-       new AgregarUsuariosPantalla().setVisible(true); 
-       this.dispose();
-    });
+        JButton regresarButton = crearBoton("Regresar", centerX, startY + 3 * (btnHeight + spacing), btnWidth, btnHeight, new Color(220, 53, 69));
+        regresarButton.addActionListener(e -> {
+            new pantallaPrincipal().setVisible(true);
+            this.dispose();
+        });
 
-    editarUsuarioButton.setBounds(centerX, startY + (btnHeight + spacing), btnWidth, btnHeight);
-    editarUsuarioButton.setFont(new Font("Verdana", Font.BOLD, 14));
-    editarUsuarioButton.addActionListener(e->{
-       new EditarUsuariosPantalla().setVisible(true);
-       this.dispose();
-    });
-    eliminarUsuarioButton.setBounds(centerX, startY + 2 * (btnHeight + spacing), btnWidth, btnHeight);
-    eliminarUsuarioButton.setFont(new Font("Verdana", Font.BOLD, 14));
-    eliminarUsuarioButton.addActionListener(e->{
-       new BorrarUsuariosPantalla().setVisible(true);
-       this.dispose();
-    });
-    regresarButton.setBounds(centerX, startY + 3 * (btnHeight + spacing), btnWidth, btnHeight);
-    regresarButton.setFont(new Font("Verdana", Font.BOLD, 14));
+        this.setSize(800, 600);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setTitle("JAVA EVENTS");
+        this.setVisible(true);
 
-    regresarButton.addActionListener(e -> {
-        new pantallaPrincipal().setVisible(true);
-        this.dispose();
-        
-    });
-
-    this.add(panelPrincipal);
-    panelPrincipal.add(labelTitulo);
-    panelPrincipal.add(labelSubtitulo);
-    panelPrincipal.add(crearUsuarioButton);
-    panelPrincipal.add(editarUsuarioButton);
-    panelPrincipal.add(eliminarUsuarioButton);
-    panelPrincipal.add(regresarButton);
-}
+        this.add(panelPrincipal);
+        panelPrincipal.add(labelTitulo);
+        panelPrincipal.add(labelSubtitulo);
+        panelPrincipal.add(crearUsuarioButton);
+        panelPrincipal.add(editarUsuarioButton);
+        panelPrincipal.add(eliminarUsuarioButton);
+        panelPrincipal.add(regresarButton);
+    }
 }

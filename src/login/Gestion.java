@@ -187,18 +187,19 @@ public final class Gestion {
         }
     }
 
-    public String mensajeDeContraseña(String password) {
+      public String mensajeDeContraseña(String password) {
         if (password.length() < 8) {
-            return "La contraseña debe tener al menos 8 carácteres.";
-        } else if (!password.matches(".*[A-Za-z].")) {
-            return "La contraseña debe tener al menos una letra mayúscula o minúscula.";
-        } else if (!password.matches(".*\\d*.")) {
+            return "La contraseña debe tener al menos 8 caracteres.";
+        } else if (!password.matches(".*[A-Z].*")) {
+            return "La contraseña debe tener al menos una letra mayúscula.";
+        } else if (!password.matches(".*[a-z].*")) {
+            return "La contraseña debe tener al menos una letra minúscula.";
+        } else if (!password.matches(".*\\d.*")) {
             return "La contraseña debe tener al menos un dígito del 0-9";
         } else if (!password.matches(".*[!@#$%^&*()_+].*")) {
             return "La contraseña debe tener al menos un carácter especial.";
         } else {
             return "";
-
         }
     }
 

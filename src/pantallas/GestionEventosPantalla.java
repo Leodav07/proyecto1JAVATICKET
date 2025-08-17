@@ -4,15 +4,9 @@
  */
 package pantallas;
 
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import java.awt.*;
+import javax.swing.*;
 import login.Gestion;
-
 /**
  *
  * @author hnleo
@@ -26,34 +20,47 @@ public class GestionEventosPantalla extends JFrame {
         pantalla();
     }
 
+    private void aplicarEstiloPanel(JPanel panel) {
+        panel.setBackground(new Color(245, 245, 245));
+        panel.setLayout(null);
+    }
+
+    private JButton crearBoton(String texto, int x, int y, int width, int height, Color color) {
+        JButton boton = new JButton(texto);
+        boton.setBounds(x, y, width, height);
+        boton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+        boton.setFocusPainted(false);
+        boton.setBorder(BorderFactory.createEmptyBorder());
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.setOpaque(true);
+        boton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
+        return boton;
+    }
+
+    private JLabel crearTitulo(String texto, int y) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setBounds(0, y, 800, 50);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        label.setForeground(new Color(33, 33, 33));
+        return label;
+    }
+
+    private JLabel crearSubtitulo(String texto, int y) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setBounds(0, y, 800, 25);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        label.setForeground(new Color(100, 100, 100));
+        return label;
+    }
+
     private void pantalla() {
         JPanel panelPrincipal = new JPanel();
-        JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        JLabel labelSubtitulo = new JLabel("Administración de Eventos.", SwingConstants.CENTER);
-        JButton crearEventoButton = new JButton("Crear Eventos");
-        JButton editarEventoButton = new JButton("Editar Eventos");
-        JButton eliminarEventoButton = new JButton("Eliminar Eventos");
-        JButton verEventoButton = new JButton("Ver Eventos");
-        JButton regresarButton = new JButton("Regresar");
+        aplicarEstiloPanel(panelPrincipal);
 
-        this.setSize(800, 600);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setTitle("JAVA EVENTS");
-
-        panelPrincipal.setBounds(0, 0, 800, 600);
-        panelPrincipal.setBackground(Color.WHITE);
-        panelPrincipal.setLayout(null);
-
-        labelTitulo.setBounds(0, 40, 800, 50);
-        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 28));
-        labelTitulo.setForeground(Color.BLACK);
-
-        labelSubtitulo.setBounds(0, 90, 800, 25);
-        labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 16));
-        labelSubtitulo.setForeground(Color.BLACK);
+        JLabel labelTitulo = crearTitulo("JAVA EVENTS", 40);
+        JLabel labelSubtitulo = crearSubtitulo("Administración de Eventos.", 100);
 
         int btnWidth = 220;
         int btnHeight = 40;
@@ -61,38 +68,41 @@ public class GestionEventosPantalla extends JFrame {
         int startY = 180;
         int spacing = 15;
 
-        crearEventoButton.setBounds(centerX, startY, btnWidth, btnHeight);
-        crearEventoButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        crearEventoButton.addActionListener(e->{
-           new CrearEventosPantalla().setVisible(true);
-           this.dispose();
+        JButton crearEventoButton = crearBoton("Crear Eventos", centerX, startY, btnWidth, btnHeight, new Color(0, 123, 255));
+        crearEventoButton.addActionListener(e -> {
+            new CrearEventosPantalla().setVisible(true);
+            this.dispose();
         });
 
-        editarEventoButton.setBounds(centerX, startY + (btnHeight + spacing), btnWidth, btnHeight);
-        editarEventoButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        editarEventoButton.addActionListener(e->{
-           new EditarEventosPantalla().setVisible(true);
-           this.dispose();
+        JButton editarEventoButton = crearBoton("Editar Eventos", centerX, startY + (btnHeight + spacing), btnWidth, btnHeight, new Color(0, 123, 255));
+        editarEventoButton.addActionListener(e -> {
+            new EditarEventosPantalla().setVisible(true);
+            this.dispose();
         });
 
-        eliminarEventoButton.setBounds(centerX, startY + 2 * (btnHeight + spacing), btnWidth, btnHeight);
-        eliminarEventoButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        eliminarEventoButton.addActionListener(e->{
-           new EliminarEventoPantalla().setVisible(true);
-           this.dispose();
+        JButton eliminarEventoButton = crearBoton("Eliminar Eventos", centerX, startY + 2 * (btnHeight + spacing), btnWidth, btnHeight, new Color(0, 123, 255));
+        eliminarEventoButton.addActionListener(e -> {
+            new EliminarEventoPantalla().setVisible(true);
+            this.dispose();
         });
-        verEventoButton.setBounds(centerX, startY + 3 * (btnHeight + spacing), btnWidth, btnHeight);
-        verEventoButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        verEventoButton.addActionListener(e->{
+
+        JButton verEventoButton = crearBoton("Ver Eventos", centerX, startY + 3 * (btnHeight + spacing), btnWidth, btnHeight, new Color(0, 123, 255));
+        verEventoButton.addActionListener(e -> {
             new VerEventoPantalla().setVisible(true);
             this.dispose();
         });
-        regresarButton.setBounds(centerX, startY + 4 * (btnHeight + spacing), btnWidth, btnHeight);
-        regresarButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        regresarButton.addActionListener(e->{
+
+        JButton regresarButton = crearBoton("Regresar", centerX, startY + 4 * (btnHeight + spacing), btnWidth, btnHeight, new Color(220, 53, 69));
+        regresarButton.addActionListener(e -> {
             new pantallaPrincipal().setVisible(true);
             this.dispose();
         });
+
+        this.setSize(800, 600);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setTitle("JAVA EVENTS");
+        this.setVisible(true);
 
         this.add(panelPrincipal);
         panelPrincipal.add(labelTitulo);
@@ -103,6 +113,4 @@ public class GestionEventosPantalla extends JFrame {
         panelPrincipal.add(verEventoButton);
         panelPrincipal.add(regresarButton);
     }
-    
-   
 }

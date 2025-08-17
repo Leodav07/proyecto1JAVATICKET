@@ -1,16 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package pantallas;
 
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import java.awt.*;
+import javax.swing.*;
 import login.Gestion;
-
 /**
  *
  * @author hnleo
@@ -20,71 +16,79 @@ public class pantallaPrincipal extends JFrame {
     private Gestion gestion;
 
     public pantallaPrincipal() {
-        
         verificarUser();
         gestion = Gestion.getInstancia();
     }
 
+    private void aplicarEstiloPanel(JPanel panel) {
+        panel.setBackground(new Color(245, 245, 245));
+        panel.setLayout(null);
+    }
+
+    private JButton crearBoton(String texto, int x, int y, int width, int height) {
+        JButton boton = new JButton(texto);
+        boton.setBounds(x, y, width, height);
+        boton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(new Color(0, 123, 255));
+        boton.setFocusPainted(false);
+        boton.setBorder(BorderFactory.createEmptyBorder());
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.setOpaque(true);
+        boton.setUI(new javax.swing.plaf.basic.BasicButtonUI()); 
+        return boton;
+    }
+
+    private JLabel crearTitulo(String texto, int y) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setBounds(0, y, 800, 40);
+        label.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        label.setForeground(new Color(33, 33, 33));
+        return label;
+    }
+
+    private JLabel crearSubtitulo(String texto, int y) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setBounds(0, y, 800, 25);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        label.setForeground(new Color(100, 100, 100));
+        return label;
+    }
+
     private void pantallaAdmin() {
         JPanel panelPrincipal = new JPanel();
-        JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        JLabel labelSubtitulo = new JLabel("Maneja perfectamente tus eventos.", SwingConstants.CENTER);
+        aplicarEstiloPanel(panelPrincipal);
 
-        JButton adminEventButton = new JButton("Administrar Eventos");
-        JButton adminUserButton = new JButton("Administrar Usuarios");
-        JButton reportesButton = new JButton("Listado de Reportes");
-        JButton cerrarSesionButton = new JButton("Cerrar Sesión");
+        JLabel labelTitulo = crearTitulo("JAVA EVENTS", 50);
+        JLabel labelSubtitulo = crearSubtitulo("Maneja perfectamente tus eventos.", 100);
+
+        JButton adminEventButton = crearBoton("Administrar Eventos", 300, 160, 200, 40);
+        adminEventButton.addActionListener(e -> {
+            new GestionEventosPantalla().setVisible(true);
+            this.dispose();
+        });
+
+        JButton adminUserButton = crearBoton("Administrar Usuarios", 300, 220, 200, 40);
+        adminUserButton.addActionListener(e -> {
+            new GestionUsuariosPantalla().setVisible(true);
+            this.dispose();
+        });
+
+        JButton reportesButton = crearBoton("Listado de Reportes", 300, 280, 200, 40);
+        reportesButton.addActionListener(e -> {
+            new GestionReportesPantalla().setVisible(true);
+            this.dispose();
+        });
+
+        JButton cerrarSesionButton = crearBoton("Cerrar Sesión", 300, 340, 200, 40);
+        cerrarSesionButton.setBackground(new Color(220, 53, 69)); // rojo
+        cerrarSesionButton.addActionListener(e -> cerrarSesionUser());
 
         this.setSize(800, 600);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        this.setLayout(null);
         this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("JAVA EVENTS");
-        panelPrincipal.setBounds(0, 0, 800, 600);
-        panelPrincipal.setBackground(Color.WHITE);
-        panelPrincipal.setLayout(null);
-
-        labelTitulo.setBounds(0, 50, 800, 40);
-        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 28));
-        labelTitulo.setForeground(Color.BLACK);
-
-        labelSubtitulo.setBounds(0, 90, 800, 25);
-        labelSubtitulo.setFont(new Font("Verdana", Font.BOLD, 16));
-        labelSubtitulo.setForeground(Color.BLACK);
-
-        adminEventButton.setBounds(300, 160, 200, 35);
-        adminEventButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        adminEventButton.setForeground(Color.BLACK);
-        adminEventButton.addActionListener(e->{
-           new GestionEventosPantalla().setVisible(true);
-           this.dispose();
-        });
-
-        adminUserButton.setBounds(290, 210, 220, 35);
-        adminUserButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        adminUserButton.setForeground(Color.BLACK);
-        adminUserButton.addActionListener(e->{
-           new GestionUsuariosPantalla().setVisible(true);
-           this.dispose();
-        });
-
-        reportesButton.setBounds(300, 260, 200, 35);
-        reportesButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        reportesButton.setForeground(Color.BLACK);
-        reportesButton.addActionListener(e->{
-        new GestionReportesPantalla().setVisible(true);
-        this.dispose();
-        });
-
-        cerrarSesionButton.setBounds(300, 310, 200, 35);
-        cerrarSesionButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        cerrarSesionButton.setForeground(Color.BLACK);
-
-        cerrarSesionButton.addActionListener(e -> {
-          cerrarSesionUser();
-        });
+        this.setVisible(true);
 
         this.add(panelPrincipal);
         panelPrincipal.add(labelTitulo);
@@ -93,60 +97,36 @@ public class pantallaPrincipal extends JFrame {
         panelPrincipal.add(adminUserButton);
         panelPrincipal.add(reportesButton);
         panelPrincipal.add(cerrarSesionButton);
-
     }
 
     private void pantallaContenido() {
         JPanel panelPrincipal = new JPanel();
-        JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        JLabel labelSubtitulo = new JLabel("Maneja perfectamente tus eventos.", SwingConstants.CENTER);
+        aplicarEstiloPanel(panelPrincipal);
 
-        JButton adminEventButton = new JButton("Administrar Eventos");
-        JButton reportesButton = new JButton("Listado de Reportes");
-        JButton cerrarSesionButton = new JButton("Cerrar Sesión");
+        JLabel labelTitulo = crearTitulo("JAVA EVENTS", 50);
+        JLabel labelSubtitulo = crearSubtitulo("Maneja perfectamente tus eventos.", 100);
+
+        JButton adminEventButton = crearBoton("Administrar Eventos", 300, 160, 200, 40);
+        adminEventButton.addActionListener(e -> {
+            new GestionEventosPantalla().setVisible(true);
+            this.dispose();
+        });
+
+        JButton reportesButton = crearBoton("Listado de Reportes", 300, 220, 200, 40);
+        reportesButton.addActionListener(e -> {
+            new GestionReportesPantalla().setVisible(true);
+            this.dispose();
+        });
+
+        JButton cerrarSesionButton = crearBoton("Cerrar Sesión", 300, 280, 200, 40);
+        cerrarSesionButton.setBackground(new Color(220, 53, 69));
+        cerrarSesionButton.addActionListener(e -> cerrarSesionUser());
 
         this.setSize(800, 600);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        this.setLayout(null);
         this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setTitle("JAVA EVENTS");
-        panelPrincipal.setBounds(0, 0, 800, 600);
-        panelPrincipal.setBackground(Color.WHITE);
-        panelPrincipal.setLayout(null);
-
-        labelTitulo.setBounds(0, 50, 800, 40);
-        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 28));
-        labelTitulo.setForeground(Color.BLACK);
-
-        labelSubtitulo.setBounds(0, 90, 800, 25);
-        labelSubtitulo.setFont(new Font("Verdana", Font.BOLD, 16));
-        labelSubtitulo.setForeground(Color.BLACK);
-
-        adminEventButton.setBounds(300, 160, 200, 35);
-        adminEventButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        adminEventButton.setForeground(Color.BLACK);
-        adminEventButton.addActionListener(e->{
-           new GestionEventosPantalla().setVisible(true);
-           this.dispose();
-        });
-        
-        reportesButton.setBounds(290, 210, 220, 35);
-        reportesButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        reportesButton.setForeground(Color.BLACK);
-        reportesButton.addActionListener(e->{
-        new GestionReportesPantalla().setVisible(true);
-        this.dispose();
-        });
-        
-        cerrarSesionButton.setBounds(300, 260, 200, 35);
-        cerrarSesionButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        cerrarSesionButton.setForeground(Color.BLACK);
-
-        cerrarSesionButton.addActionListener(e -> {
-        cerrarSesionUser();
-        });
+        this.setVisible(true);
 
         this.add(panelPrincipal);
         panelPrincipal.add(labelTitulo);
@@ -158,59 +138,37 @@ public class pantallaPrincipal extends JFrame {
 
     private void pantallaLimitada() {
         JPanel panelPrincipal = new JPanel();
-        JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        JLabel labelSubtitulo = new JLabel("Maneja perfectamente tus eventos.", SwingConstants.CENTER);
+        aplicarEstiloPanel(panelPrincipal);
 
-        JButton verEventosButton = new JButton("Ver Eventos");
-        JButton reportesButton = new JButton("Listado de Reportes");
-        JButton cerrarSesionButton = new JButton("Cerrar Sesión");
+        JLabel labelTitulo = crearTitulo("JAVA EVENTS", 50);
+        JLabel labelSubtitulo = crearSubtitulo("Maneja perfectamente tus eventos.", 100);
 
-        this.setSize(800, 600);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setTitle("JAVA EVENTS");
-        panelPrincipal.setBounds(0, 0, 800, 600);
-        panelPrincipal.setBackground(Color.WHITE);
-        panelPrincipal.setLayout(null);
-
-        labelTitulo.setBounds(0, 50, 800, 40);
-        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 28));
-        labelTitulo.setForeground(Color.BLACK);
-
-        labelSubtitulo.setBounds(0, 90, 800, 25);
-        labelSubtitulo.setFont(new Font("Verdana", Font.BOLD, 16));
-        labelSubtitulo.setForeground(Color.BLACK);
-
-        verEventosButton.setBounds(300, 160, 200, 35);
-        verEventosButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        verEventosButton.setForeground(Color.BLACK);
-        verEventosButton.addActionListener(e->{
+        JButton verEventosButton = crearBoton("Ver Eventos", 300, 160, 200, 40);
+        verEventosButton.addActionListener(e -> {
             new VerEventoPantalla().setVisible(true);
             this.dispose();
         });
-        
-        reportesButton.setBounds(290, 210, 220, 35);
-        reportesButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        reportesButton.setForeground(Color.BLACK);
-        reportesButton.addActionListener(e->{
-        new GestionReportesPantalla().setVisible(true);
-        this.dispose();
-        });
-       
-        cerrarSesionButton.setBounds(300, 260, 200, 35);
-        cerrarSesionButton.setFont(new Font("Verdana", Font.BOLD, 14));
-        cerrarSesionButton.setForeground(Color.BLACK);
 
-        cerrarSesionButton.addActionListener(e -> {
-        cerrarSesionUser();
+        JButton reportesButton = crearBoton("Listado de Reportes", 300, 220, 200, 40);
+        reportesButton.addActionListener(e -> {
+            new GestionReportesPantalla().setVisible(true);
+            this.dispose();
         });
+
+        JButton cerrarSesionButton = crearBoton("Cerrar Sesión", 300, 280, 200, 40);
+        cerrarSesionButton.setBackground(new Color(220, 53, 69));
+        cerrarSesionButton.addActionListener(e -> cerrarSesionUser());
+
+        this.setSize(800, 600);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setTitle("JAVA EVENTS");
+        this.setVisible(true);
 
         this.add(panelPrincipal);
         panelPrincipal.add(labelTitulo);
         panelPrincipal.add(labelSubtitulo);
+        panelPrincipal.add(verEventosButton);
         panelPrincipal.add(reportesButton);
         panelPrincipal.add(cerrarSesionButton);
     }
@@ -219,29 +177,25 @@ public class pantallaPrincipal extends JFrame {
         try {
             if (gestion.usuarioActual.getTipoRol().equals("ADMIN")) {
                 pantallaAdmin();
-                System.out.println("USER ACTUAL:"+gestion.usuarioActual.getUsuario()+" ADMIN");
             } else if (gestion.usuarioActual.getTipoRol().equals("CONTENIDO")) {
                 pantallaContenido();
-                System.out.println("USER ACTUAL: "+gestion.usuarioActual.getUsuario()+" CONTENIDO");
             } else if (gestion.usuarioActual.getTipoRol().equals("LIMITADO")) {
                 pantallaLimitada();
-                System.out.println("USER ACTUAL:"+gestion.usuarioActual.getUsuario()+" LIMITADO");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
-    
-    private void cerrarSesionUser(){
-          try{
-           if(gestion.usuarioActual!=null){
-          gestion.usuarioActual = null;
-          new loginVentana().setVisible(true);
-          this.dispose();
-           }
-            } 
-            catch(Exception i){
-                System.out.println(i.getMessage());
+
+    private void cerrarSesionUser() {
+        try {
+            if (gestion.usuarioActual != null) {
+                gestion.usuarioActual = null;
+                new loginVentana().setVisible(true);
+                this.dispose();
             }
+        } catch (Exception i) {
+            System.out.println(i.getMessage());
+        }
     }
 }

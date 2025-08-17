@@ -4,21 +4,12 @@
  */
 package pantallas;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import login.Gestion;
 import login.Usuario;
-
 /**
  *
  * @author hnleo
@@ -32,14 +23,45 @@ public class BorrarUsuariosPantalla extends JFrame {
         pantalla();
     }
 
+    private JButton crearBoton(String texto, Color color) {
+        JButton boton = new JButton(texto);
+        boton.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        boton.setForeground(Color.WHITE);
+        boton.setBackground(color);
+        boton.setFocusPainted(false);
+        boton.setBorder(BorderFactory.createEmptyBorder());
+        boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.setOpaque(true);
+        return boton;
+    }
+
+    private JLabel crearTitulo(String texto, int size) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setFont(new Font("Segoe UI", Font.BOLD, size));
+        label.setForeground(new Color(33, 33, 33));
+        return label;
+    }
+
+    private JLabel crearSubtitulo(String texto, int size) {
+        JLabel label = new JLabel(texto, SwingConstants.CENTER);
+        label.setFont(new Font("Segoe UI", Font.PLAIN, size));
+        label.setForeground(new Color(100, 100, 100));
+        return label;
+    }
+
     private void pantalla() {
         JPanel panelPrincipal = new JPanel();
-        JLabel labelTitulo = new JLabel("JAVA EVENTS", SwingConstants.CENTER);
-        JLabel labelSubtitulo = new JLabel("Administración de Usuarios.", SwingConstants.CENTER);
+        panelPrincipal.setBackground(new Color(245, 245, 245));
+        panelPrincipal.setLayout(null);
+
+        JLabel labelTitulo = crearTitulo("JAVA EVENTS", 24);
+        JLabel labelSubtitulo = crearSubtitulo("Administración de Usuarios", 16);
+
+        labelTitulo.setBounds(0, 20, 500, 30);
+        labelSubtitulo.setBounds(0, 55, 500, 20);
 
         JLabel labelTipoUsuario = new JLabel("Tipo de Usuario:");
         JComboBox<String> comboTipoUsuario = new JComboBox<>(new String[]{"ADMINISTRADOR", "CONTENIDO", "LIMITADO"});
-
         JLabel labelNombre = new JLabel("Nombre Completo:");
         JLabel labelUsuario = new JLabel("Usuario:");
         JLabel labelContraseña = new JLabel("Contraseña:");
@@ -50,90 +72,52 @@ public class BorrarUsuariosPantalla extends JFrame {
         JTextField contrasennaText = new JTextField();
         JTextField edadText = new JTextField();
 
-        JButton crearUsuarioButton = new JButton("Borrar");
-        JButton cancelarUsuarioButton = new JButton("Cancelar");
-        JButton regresarButton = new JButton("Regresar");
+        int labelX = 30, fieldX = 180, startY = 100, spacingY = 45, labelWidth = 140, fieldWidth = 250, fieldHeight = 25;
+        labelUsuario.setBounds(labelX, startY, labelWidth, fieldHeight);
+        usuarioText.setBounds(fieldX, startY, fieldWidth, fieldHeight);
 
-        this.setSize(500, 500);
-        this.setVisible(true);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setLayout(null);
-        this.setLocationRelativeTo(null);
-        this.setTitle("JAVA EVENTS");
+        labelNombre.setBounds(labelX, startY + spacingY, labelWidth, fieldHeight);
+        textNombre.setBounds(fieldX, startY + spacingY, fieldWidth, fieldHeight);
 
-        panelPrincipal.setBounds(0, 0, 500, 500);
-        panelPrincipal.setBackground(Color.WHITE);
-        panelPrincipal.setLayout(null);
+        labelTipoUsuario.setBounds(labelX, startY + 2 * spacingY, labelWidth, fieldHeight);
+        comboTipoUsuario.setBounds(fieldX, startY + 2 * spacingY, fieldWidth, fieldHeight);
 
-        labelTitulo.setBounds(0, 20, 500, 40);
-        labelTitulo.setFont(new Font("Verdana", Font.BOLD, 24));
-        labelTitulo.setForeground(Color.BLACK);
+        labelContraseña.setBounds(labelX, startY + 3 * spacingY, labelWidth, fieldHeight);
+        contrasennaText.setBounds(fieldX, startY + 3 * spacingY, fieldWidth, fieldHeight);
 
-        labelSubtitulo.setBounds(0, 60, 500, 20);
-        labelSubtitulo.setFont(new Font("Verdana", Font.PLAIN, 14));
-        labelSubtitulo.setForeground(Color.BLACK);
+        labelEdad.setBounds(labelX, startY + 4 * spacingY, labelWidth, fieldHeight);
+        edadText.setBounds(fieldX, startY + 4 * spacingY, fieldWidth, fieldHeight);
 
-        int labelWidth = 150;
-        int labelHeight = 25;
-        int fieldWidth = 200;
-        int fieldHeight = 25;
-        int startXLabel = 50;
-        int startXField = 200;
-        int startY = 100;
-        int spacingY = 40;
+        JButton borrarButton = crearBoton("Borrar", new Color(220, 53, 69));
+        JButton cancelarButton = crearBoton("Cancelar", new Color(108, 117, 125));
+        JButton regresarButton = crearBoton("Regresar", new Color(0, 123, 255));
 
-        labelUsuario.setBounds(startXLabel, startY, labelWidth, labelHeight);
-        usuarioText.setBounds(startXField, startY, fieldWidth, fieldHeight);
-
-        labelNombre.setBounds(startXLabel, startY + spacingY, labelWidth, labelHeight);
-        textNombre.setBounds(startXField, startY + spacingY, fieldWidth, fieldHeight);
-
-        labelTipoUsuario.setBounds(startXLabel, startY + spacingY * 2, labelWidth, labelHeight);
-        comboTipoUsuario.setBounds(startXField, startY + spacingY * 2, fieldWidth, fieldHeight);
-
-        labelContraseña.setBounds(startXLabel, startY + spacingY * 3, labelWidth, labelHeight);
-        contrasennaText.setBounds(startXField, startY + spacingY * 3, fieldWidth, fieldHeight);
-
-        labelEdad.setBounds(startXLabel, startY + spacingY * 4, labelWidth, labelHeight);
-        edadText.setBounds(startXField, startY + spacingY * 4, fieldWidth, fieldHeight);
-
-        int btnWidth = 120;
-        int btnHeight = 30;
-        int btnStartY = startY + spacingY * 6;
+        int btnY = startY + 5 * spacingY + 10;
+        borrarButton.setBounds(labelX, btnY, 120, 35);
+        cancelarButton.setBounds(fieldX, btnY, 120, 35);
+        regresarButton.setBounds((500 - 120)/2, btnY + 50, 120, 35);
 
         usuarioText.addFocusListener(new FocusAdapter() {
-
             @Override
             public void focusLost(FocusEvent e) {
                 Usuario user = gestion.buscarUsuarios(usuarioText.getText(), 0);
-                try {
-                    if (user != null) {
-                        textNombre.setText(user.getNombreCompleto());
-                        contrasennaText.setText(user.getPass());
-                        comboTipoUsuario.setSelectedItem(user.getTipoRol());
-                        edadText.setText(String.valueOf(user.getEdad()));
-                    } else {
-                        JOptionPane.showMessageDialog(BorrarUsuariosPantalla.this, "Usuario no existe.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-                        textNombre.setText("");
-                        usuarioText.setText("");
-                        contrasennaText.setText("");
-                        edadText.setText("");
-                        usuarioText.requestFocus();
-                    }
-                } catch (Exception i) {
-                    JOptionPane.showMessageDialog(BorrarUsuariosPantalla.this, "Error: " + i.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+                if (user != null) {
+                    textNombre.setText(user.getNombreCompleto());
+                    contrasennaText.setText(user.getPass());
+                    comboTipoUsuario.setSelectedItem(user.getTipoRol());
+                    edadText.setText(String.valueOf(user.getEdad()));
+                } else if(!usuarioText.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(BorrarUsuariosPantalla.this, "Usuario no existe.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    textNombre.setText("");
+                    usuarioText.setText("");
+                    contrasennaText.setText("");
+                    edadText.setText("");
+                    usuarioText.requestFocus();
                 }
-
             }
-
         });
 
-        crearUsuarioButton.setBounds(startXLabel, btnStartY, btnWidth, btnHeight);
-        cancelarUsuarioButton.setBounds(startXField, btnStartY, btnWidth, btnHeight);
-        regresarButton.setBounds((500 - btnWidth) / 2, btnStartY + (btnHeight + 10), btnWidth, btnHeight);
-
-        crearUsuarioButton.addActionListener(e -> {
-
+        borrarButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, gestion.borrarUsuario(usuarioText.getText()), "AVISO", JOptionPane.INFORMATION_MESSAGE);
             textNombre.setText("");
             usuarioText.setText("");
@@ -142,7 +126,7 @@ public class BorrarUsuariosPantalla extends JFrame {
             usuarioText.requestFocus();
         });
 
-        cancelarUsuarioButton.addActionListener(e -> {
+        cancelarButton.addActionListener(e -> {
             textNombre.setText("");
             usuarioText.setText("");
             contrasennaText.setText("");
@@ -154,7 +138,6 @@ public class BorrarUsuariosPantalla extends JFrame {
             this.dispose();
         });
 
-        this.add(panelPrincipal);
         panelPrincipal.add(labelTitulo);
         panelPrincipal.add(labelSubtitulo);
         panelPrincipal.add(labelTipoUsuario);
@@ -167,9 +150,15 @@ public class BorrarUsuariosPantalla extends JFrame {
         panelPrincipal.add(contrasennaText);
         panelPrincipal.add(labelEdad);
         panelPrincipal.add(edadText);
-        panelPrincipal.add(crearUsuarioButton);
-        panelPrincipal.add(cancelarUsuarioButton);
+        panelPrincipal.add(borrarButton);
+        panelPrincipal.add(cancelarButton);
         panelPrincipal.add(regresarButton);
 
+        this.add(panelPrincipal);
+        this.setSize(500, 500);
+        this.setTitle("JAVA EVENTS");
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setVisible(true);
     }
 }
