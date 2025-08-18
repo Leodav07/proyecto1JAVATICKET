@@ -46,6 +46,13 @@ public class EventosPorRangoPantalla extends JFrame {
 
         btnRegresar = new JButton("Regresar");
         btnRegresar.setPreferredSize(new Dimension(100, 35));
+        btnRegresar.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnRegresar.setForeground(Color.WHITE);
+        btnRegresar.setBackground(new Color(220, 53, 69));
+        btnRegresar.setFocusPainted(false);
+        btnRegresar.setBorder(BorderFactory.createEmptyBorder());
+        btnRegresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnRegresar.setOpaque(true);
 
         panelSuperior.add(panelTitulos, BorderLayout.CENTER);
         panelSuperior.add(btnRegresar, BorderLayout.EAST);
@@ -63,6 +70,13 @@ public class EventosPorRangoPantalla extends JFrame {
 
         btnBuscar = new JButton("Buscar");
         btnBuscar.setPreferredSize(new Dimension(80, 30));
+        btnBuscar.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnBuscar.setForeground(Color.WHITE);
+        btnBuscar.setBackground(new Color(0, 123, 255));
+        btnBuscar.setFocusPainted(false);
+        btnBuscar.setBorder(BorderFactory.createEmptyBorder());
+        btnBuscar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnBuscar.setOpaque(true);
 
         panelFechas.add(lblFechaInicial);
         panelFechas.add(fechaInicialChooser);

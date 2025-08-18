@@ -519,19 +519,19 @@ public class EliminarEventoPantalla extends JFrame {
     }
 
     private void desactivarCampos() {
-        textDescripcion.setEnabled(false);
-        textMonto.setEnabled(false);
-        textMaxPersonas.setEnabled(false);
+        textDescripcion.setEditable(false);
+        textMonto.setEditable(false);
+        textMaxPersonas.setEditable(false);
         comboTipoEvento.setEnabled(false);
         comboTipoDeporte.setEnabled(false);
         comboTipoMusica.setEnabled(false);
-        textEquipo1.setEnabled(false);
-        textEquipo2.setEnabled(false);
+        textEquipo1.setEditable(false);
+        textEquipo2.setEditable(false);
         dateChooser.setEnabled(false);
-        textJugadoresEq1.setEnabled(false);
-        textJugadoresEq2.setEnabled(false);
-        textIntegrantes.setEnabled(false);
-        textPersonasConvertidas.setEnabled(false);
+        textJugadoresEq1.setEditable(false);
+        textJugadoresEq2.setEditable(false);
+        textIntegrantes.setEditable(false);
+        textPersonasConvertidas.setEditable(false);
         eliminarEventoButton.setEnabled(false);
     }
 }

@@ -7,6 +7,7 @@ package pantallas;
 import java.awt.*;
 import javax.swing.*;
 import login.Gestion;
+
 /**
  *
  * @author hnleo
@@ -35,7 +36,7 @@ public class pantallaPrincipal extends JFrame {
         boton.setBorder(BorderFactory.createEmptyBorder());
         boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         boton.setOpaque(true);
-        boton.setUI(new javax.swing.plaf.basic.BasicButtonUI()); 
+        boton.setUI(new javax.swing.plaf.basic.BasicButtonUI());
         return boton;
     }
 
@@ -82,7 +83,17 @@ public class pantallaPrincipal extends JFrame {
 
         JButton cerrarSesionButton = crearBoton("Cerrar Sesión", 300, 340, 200, 40);
         cerrarSesionButton.setBackground(new Color(220, 53, 69)); // rojo
-        cerrarSesionButton.addActionListener(e -> cerrarSesionUser());
+
+        cerrarSesionButton.addActionListener(e -> {
+            int op = JOptionPane.showConfirmDialog(this, "¿Seguro deseas cerrar sesión?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (op == JOptionPane.YES_OPTION) {
+                cerrarSesionUser();
+
+            } else if (op == JOptionPane.NO_OPTION) {
+
+            }
+
+        });
 
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
@@ -120,7 +131,16 @@ public class pantallaPrincipal extends JFrame {
 
         JButton cerrarSesionButton = crearBoton("Cerrar Sesión", 300, 280, 200, 40);
         cerrarSesionButton.setBackground(new Color(220, 53, 69));
-        cerrarSesionButton.addActionListener(e -> cerrarSesionUser());
+         cerrarSesionButton.addActionListener(e -> {
+            int op = JOptionPane.showConfirmDialog(this, "¿Seguro deseas cerrar sesión?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (op == JOptionPane.YES_OPTION) {
+                cerrarSesionUser();
+
+            } else if (op == JOptionPane.NO_OPTION) {
+
+            }
+
+        });
 
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
@@ -157,7 +177,16 @@ public class pantallaPrincipal extends JFrame {
 
         JButton cerrarSesionButton = crearBoton("Cerrar Sesión", 300, 280, 200, 40);
         cerrarSesionButton.setBackground(new Color(220, 53, 69));
-        cerrarSesionButton.addActionListener(e -> cerrarSesionUser());
+        cerrarSesionButton.addActionListener(e -> {
+            int op = JOptionPane.showConfirmDialog(this, "¿Seguro deseas cerrar sesión?", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (op == JOptionPane.YES_OPTION) {
+                cerrarSesionUser();
+
+            } else if (op == JOptionPane.NO_OPTION) {
+
+            }
+
+        });
 
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);

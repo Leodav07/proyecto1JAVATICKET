@@ -51,6 +51,13 @@ public class EventosRealizadosPantalla extends JFrame {
 
         btnRegresar = new JButton("Regresar");
         btnRegresar.setPreferredSize(new Dimension(100, 35));
+        btnRegresar.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        btnRegresar.setForeground(Color.WHITE);
+        btnRegresar.setBackground(new Color(220, 53, 69));
+        btnRegresar.setFocusPainted(false);
+        btnRegresar.setBorder(BorderFactory.createEmptyBorder());
+        btnRegresar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnRegresar.setOpaque(true);
 
         panelSuperior.add(panelTitulos, BorderLayout.CENTER);
         panelSuperior.add(btnRegresar, BorderLayout.EAST);

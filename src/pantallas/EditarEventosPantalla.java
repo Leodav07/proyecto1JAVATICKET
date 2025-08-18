@@ -78,8 +78,8 @@ public class EditarEventosPantalla extends JFrame {
         comboTipoEvento.setEnabled(false);
         comboTipoDeporte.setEnabled(false);
         comboTipoMusica.setEnabled(false);
-        textEquipo1.setEnabled(false);
-        textEquipo2.setEnabled(false);
+        textEquipo1.setEditable(false);
+        textEquipo2.setEditable(false);
     }
 
     private void pantalla() {
@@ -144,7 +144,6 @@ public class EditarEventosPantalla extends JFrame {
         cancelarButton = new JButton("Cancelar");
         regresarButton = new JButton("Regresar");
 
-        // Aplicar estilos consistentes con CrearEventosPantalla
         JLabel[] labels = {labelTipoEvento, labelCodigo, labelTituloEvento, labelDescripcion, labelFecha,
                 labelMonto, labelMaxPersonas, labelEquipo1, labelEquipo2, labelTipoDeporte, labelTipoMusica,
                 labelJugadoresEq1, labelJugadoresEq2, labelIntegrantes, labelPersonasConvertidas};
@@ -164,7 +163,6 @@ public class EditarEventosPantalla extends JFrame {
             cmb.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         }
 
-        // Estilo para botones "Agregar"
         for (JButton btn : botonesAgregar) {
             btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
             btn.setBackground(new Color(255, 152, 0));
@@ -173,21 +171,18 @@ public class EditarEventosPantalla extends JFrame {
             btn.setBorderPainted(false);
         }
 
-        // Botón principal "Guardar Cambios"
         editarEventoButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         editarEventoButton.setBackground(new Color(76, 175, 80));
         editarEventoButton.setForeground(Color.WHITE);
         editarEventoButton.setFocusPainted(false);
         editarEventoButton.setBorderPainted(false);
 
-        // Botón "Cancelar"
         cancelarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         cancelarButton.setBackground(new Color(244, 67, 54));
         cancelarButton.setForeground(Color.WHITE);
         cancelarButton.setFocusPainted(false);
         cancelarButton.setBorderPainted(false);
 
-        // Botón "Regresar"
         regresarButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
         regresarButton.setBackground(new Color(33, 150, 243));
         regresarButton.setForeground(Color.WHITE);
@@ -260,11 +255,9 @@ public class EditarEventosPantalla extends JFrame {
         });
 
         regresarButton.addActionListener(e -> {
-            // Validar si existe GestionEventosPantalla, sino cerrar la ventana actual
             try {
                 new GestionEventosPantalla().setVisible(true);
             } catch (Exception ex) {
-                // Si no existe la clase, simplemente cerrar esta ventana
                 JOptionPane.showMessageDialog(this, "Regresando al menú principal...");
             }
             this.dispose();
@@ -288,7 +281,6 @@ public class EditarEventosPantalla extends JFrame {
                     return;
                 }
 
-                // Verificar que el evento pertenece al usuario actual
                  Eventos evento = gestion.buscarEventos(codigo, 0);
                 if (evento == null) {
                     JOptionPane.showMessageDialog(EditarEventosPantalla.this, "Evento no encontrado.", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
@@ -304,7 +296,6 @@ public class EditarEventosPantalla extends JFrame {
                         return;
                     }
                 } catch (Exception ex) {
-                    // Manejar caso donde usuarioActual es null
                     JOptionPane.showMessageDialog(EditarEventosPantalla.this, "Error: No hay usuario logueado.", "ERROR", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
@@ -351,7 +342,7 @@ public class EditarEventosPantalla extends JFrame {
                     try {
                         comboTipoDeporte.setSelectedItem(TipoDeporte.valueOf(String.valueOf(dep.getTipoDeporte()).toUpperCase()));
                     } catch (Exception ex) {
-                        // Si no se puede convertir, mantener el valor por defecto
+                        
                     }
 
                 } else if (evento instanceof EventoMusical) {
@@ -361,7 +352,7 @@ public class EditarEventosPantalla extends JFrame {
                     try {
                         comboTipoMusica.setSelectedItem(TipoMusica.valueOf(String.valueOf(mus.getTipoMusica()).toUpperCase()));
                     } catch (Exception ex) {
-                        // Si no se puede convertir, mantener el valor por defecto
+                        
                     }
 
                     try {
@@ -403,7 +394,6 @@ public class EditarEventosPantalla extends JFrame {
             crearHabilitado();
         });
 
-        // Botones para agregar elementos a las listas
         btnAgregarJugEq1.addActionListener(e -> {
             String entrada = JOptionPane.showInputDialog(this, "Ingrese el nombre del jugador:");
             if (entrada != null && !entrada.trim().isEmpty()) {

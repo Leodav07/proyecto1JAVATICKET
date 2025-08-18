@@ -187,7 +187,7 @@ public final class Gestion {
         }
     }
 
-      public String mensajeDeContraseña(String password) {
+    public String mensajeDeContraseña(String password) {
         if (password.length() < 8) {
             return "La contraseña debe tener al menos 8 caracteres.";
         } else if (!password.matches(".*[A-Z].*")) {
@@ -313,6 +313,10 @@ public final class Gestion {
                 return "La fecha que solicitas para tu evento ya está ocupada por otro evento, escoge otra fecha.";
             }
 
+            if (sdf.format(fechaARealizar.getTime()).equals(sdf.format(fechaHoy.getTime()))) {
+                return "No puedes colocar eventos el día de hoy.";
+            }
+
             boolean sinCambios = event.getTituloEvento().equals(tituloEvento)
                     && event.getDescripcionEvento().equals(descripcionEvento)
                     && event.getFechaARealizar().equals(fechaARealizar)
@@ -326,11 +330,11 @@ public final class Gestion {
                         && dep.getNombreEquipo2().equals(nombreEquipo2)
                         && dep.getTipoDeporte().equals(tipoDeporte);
 
-                if (dep.getListaJugadoresEquipo1() != null && jugadoresEq1 != null) {
-                    sinCambios = sinCambios && dep.getListaJugadoresEquipo1().equals(jugadoresEq1);
+                if (jugadoresEq1 != null) {
+                    sinCambios = sinCambios && compararListas(dep.getListaJugadoresEquipo1(), jugadoresEq1);
                 }
-                if (dep.getListaJugadoresEquipo2() != null && jugadoresEq2 != null) {
-                    sinCambios = sinCambios && dep.getListaJugadoresEquipo2().equals(jugadoresEq2);
+                if (jugadoresEq2 != null) {
+                    sinCambios = sinCambios && compararListas(dep.getListaJugadoresEquipo2(), jugadoresEq2);
                 }
             } else if (event instanceof EventoMusical) {
                 EventoMusical mus = (EventoMusical) event;
@@ -414,6 +418,16 @@ public final class Gestion {
         );
     }
 
+    private boolean compararListas(ArrayList<String> lista1, ArrayList<String> lista2) {
+        if (lista1 == null && lista2 == null) {
+            return true;
+        }
+        if (lista1 == null || lista2 == null) {
+            return false;
+        }
+        return lista1.size() == lista2.size() && lista1.containsAll(lista2) && lista2.containsAll(lista1);
+    }
+
     public final String eliminarEvento(int codigoEvento, Calendar fecha) {
         try {
             if (usuarioActual == null || !usuarioActual.getEventos().contains(codigoEvento)) {
@@ -465,6 +479,9 @@ public final class Gestion {
     }
 
     public String listadoEventosRealizados(String estado) {
+        if (eventos.isEmpty()) {
+            return "No hay eventos que mostrar actualmente.";
+        }
         final int[] contadores = {0, 0, 0};
         final double[] sumadores = {0, 0, 0};
 
@@ -502,6 +519,7 @@ public final class Gestion {
     }
 
     public String eventoPorRango(Calendar fecha1, Calendar fecha2) {
+
         final int[] contadores = {0, 0, 0};
         final double[] sumadores = {0, 0, 0};
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/YY");
@@ -510,6 +528,7 @@ public final class Gestion {
         eventos.stream()
                 .filter(evento -> evento.getFechaARealizar().getTime().after(fecha1.getTime()) && evento.getFechaARealizar().getTime().before(fecha2.getTime()))
                 .forEach(evento -> {
+
                     resultado.append(evento.getCodigoEvento()).append(" - ")
                             .append(evento.getTipoEvento()).append(" - ")
                             .append(evento.getTituloEvento()).append(" - ")
