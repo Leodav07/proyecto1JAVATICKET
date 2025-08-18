@@ -57,7 +57,7 @@ public class EventosPorRangoPantalla extends JFrame {
         panelSuperior.add(panelTitulos, BorderLayout.CENTER);
         panelSuperior.add(btnRegresar, BorderLayout.EAST);
 
-        JPanel panelFechas = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10)); // espacio horizontal de 20px
+        JPanel panelFechas = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         panelFechas.setBackground(Color.WHITE);
 
         JLabel lblFechaInicial = new JLabel("Fecha Inicial:");
@@ -101,7 +101,7 @@ public class EventosPorRangoPantalla extends JFrame {
         
         btnBuscar.addActionListener(e->{
             try{
-            textAreaEventos.append("");
+            textAreaEventos.setText("");
             textAreaEventos.append(gestion.eventoPorRango(fechaInicialChooser.getCalendar(), fechaFinalChooser.getCalendar()));
             }catch(Exception s){
                 JOptionPane.showMessageDialog(this, "Error: "+s.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);

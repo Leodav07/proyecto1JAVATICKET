@@ -87,7 +87,6 @@ public class VerEventoPantalla extends JFrame {
         labelSubtitulo.setBounds(0, 65, 550, 25);
         panelPrincipal.add(labelSubtitulo);
 
-        // Inicialización de labels y campos
         labelTipoEvento = new JLabel("Tipo de Evento:");
         comboTipoEvento = new JComboBox<>(new String[]{"DEPORTIVO", "MUSICAL", "RELIGIOSO"});
         labelCodigo = new JLabel("Código:");
@@ -240,8 +239,13 @@ public class VerEventoPantalla extends JFrame {
         });
 
         regresarButton.addActionListener(e -> {
+            if(gestion.usuarioActual.getTipoRol().equals("LIMITADO")){
+                new pantallaPrincipal().setVisible(true);
+                this.dispose();
+            }else{
             new GestionEventosPantalla().setVisible(true);
             this.dispose();
+            }
         });
 
         verEventoButton.addActionListener(e -> {
